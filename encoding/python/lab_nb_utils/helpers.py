@@ -28,3 +28,7 @@ def validate_config():
 
 def build_output_path():
     return f"outputs/{config.MY_ID}-{get_uuid()}"
+
+
+def build_dashboard_url(encoding_id):
+    return f"https://bitmovin.com/dashboard/encoding/encodings/{encoding_id}?apiKey={config.API_KEY}&orgId={config.ORG_ID}"
