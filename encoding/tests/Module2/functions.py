@@ -1,5 +1,5 @@
 import uuid
-import config
+from . import config
 
 def get_uuid():
     return str(uuid.uuid4())
