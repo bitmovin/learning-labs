@@ -1,0 +1,124 @@
+/**
+ * @summary Sample OTT APP CSS code.
+ *
+ * @link https://github.com/bitmovin/learning-labs/tree/feature/sample-ott-app-javascript
+ * @author CM, Bitmovin.
+ * @since 22.04.2020
+ */
+
+body {
+  font-family: 'Montserrat', "Helvetica Neue", helvetica, arial, sans-serif !important;
+  margin: 2em;
+}
+
+h1 {
+  color: black;
+}
+
+p {
+  font-weight: bold;
+}
+
+
+#title, #caption-item, #status {
+  font-size: 1.5em;
+  font-weight: bold;
+}
+
+#caption-item {
+  color: darkred;
+}
+
+.header {
+  padding: 20px 0px 20px 0px;
+  margin-bottom: 26px; 
+  border-bottom: solid 4px #000000;
+}
+
+.header h1 {
+  font-weight: 700;
+}
+
+.header p {
+  font-size: 18px;
+  font-weight: 400;
+}
+
+/* Main video section */
+
+.main { }
+
+.main .title-bar {
+  margin-bottom:16px;
+}
+
+.main .title-bar .video-title { 
+  color: #000000; 
+  font-weight: 700;
+}
+
+.main .title-bar .caption {
+  text-align: left;
+}
+
+.main .title-bar #caption-item.caption-item { 
+  font-size: 18px;
+  color: #000000; 
+  font-weight: normal; 
+}
+
+.main #status.status { 
+  padding: 5px 15px;
+  font-size: 20px;
+  font-weight: 400;
+}
+
+.main .player-wrapper { 
+  margin-bottom:20px;
+}  
+
+
+/* Sidebar */
+
+.sidebar {
+  padding-left: 0px !important;
+  
+}
+
+.sidebar .video-list #item-element {
+  margin: 15px;
+}
+
+button#item-element.btn.btn-primary {
+  margin: 0px 10px 15px 0px;
+  background-color: #ffffff;
+  border: 4px solid #000000;
+  border-bottom: 7px solid #000000;
+  color: #000000;
+  border-radius: 0px;
+}
+button#item-element.btn.btn-primary:hover {
+  background-color: #000000;
+  color: #ffffff;
+}
+
+/* Various */
+
+button.btn.btn-black {
+  margin: 0px 0px 15px 0px;
+  padding: 8px 15px;
+  background-color: #000000;
+  border: none;
+  color: #ffffff;
+  border-radius: 0px;
+  font-weight: 700;
+}
+button.btn.btn-black:hover {
+  background-color: #555555;
+  color: #ffffff;
+}
+
+.bmpui-ui-watermark {
+  background-image: url(https://i.pinimg.com/originals/89/7b/a4/897ba45104995cd0677fb51a7b6395df.png);
+  background-size: contain;
+}

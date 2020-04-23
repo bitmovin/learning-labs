@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Your personal stories OTT PLATFORM</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <!-- import the webpage's stylesheet -->
+    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+
+    <!-- import the webpage's javascript file -->
+    <script src="/script.js" defer></script>
+  </head>  
+  <body>
+    
+    <script type="text/javascript" src="https://cdn.bitmovin.com/player/web/8/bitmovinplayer.js"></script>
+    <div class="container">
+      <div class="content">
+        <div class="row">
+          <div class="col-12 col-lg-12">
+            
+            <div class="header">
+              <h1>🍿 Your Instagram stories OTT platform</h1>
+              <p>Watch your favorite Instagram stories here with a TV channel experience!</p>
+            </div>
+            
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 col-sm-12 col-md-12 col-lg-2">
+
+            <!-- Sidebar Video List -->
+            <div class="videos-list" id="videos-list"></div>
+          
+          </div>
+          <div class="col-12 col-sm-12 col-md-12 col-lg-10 main">
+
+            <!-- Video Title Section -->
+            <div class="title-bar">
+              <div class="container">
+                
+                <div class="content">
+                  <div class="row">
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-8">
+                      <div class="video-title" id="title"></div>
+                    </div>
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-4 caption">
+                      <div class="caption-item" id="caption-item"></div>
+                    </div>
+                  </div>
+                </div>
+                
+              </div>
+            </div>
+            <div class="player-wrapper">
+              <div id="player"></div>
+            </div>
+            <div class="content">
+              <div class="row">
+                <div class="col-2 text-left">
+                  <button class="btn btn-black navigation" id="previous" onclick="navigateVideo(0)">PREV</button>
+                </div>
+                <div class="col-8 text-center">
+                  <div class="status" id="status"></div>
+                </div>
+                <div class="col-2 text-right">
+                  <button class="btn btn-black navigation" id="next" onclick="navigateVideo(1)">NEXT</button>
+                </div>
+              </div>
+            </div>
+          
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- include the Glitch button to show what the webpage is about and to make it easier for folks to view source and remix -->
+    <div class="glitchButton" style="position:fixed;top:20px;right:20px;"></div>
+    <script src="https://button.glitch.me/button.js"></script>
+  </body>
+</html>
