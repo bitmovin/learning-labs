@@ -1,0 +1,39 @@
+<script type="text/javascript" src="https://cdn.bitmovin.com/player/web/8/bitmovinplayer.js"></script>
+<div class="container">
+  <div class="content">
+    <br />
+    DASH:
+    <input class="form-control input-sm" id="dashManifest" type="text" placeholder="DASH" value="https://akamaibroadcasteruseast.akamaized.net/cmaf/live/657078/akasource/out.mpd">
+    <br />
+    <button type="submit" class="btn btn-dark" id="unloadSourceButton">Unload</button>
+    <button type="submit" class="btn btn-dark" id="loadSourceButton">Load</button>
+    <br />
+    <br />
+    <div class="player-wrapper">
+      <div id="player"></div>
+    </div>
+    <br />
+    <div class="latency-control">
+      <div>
+        Target Latency: <span id="targetLatency">2</span>
+      </div>
+      <br />
+      <div class="slide-container">
+        <input type="range" min="0.5" max="5" value="2" step="0.1" class="slider" id="targetLatencySlider">
+      </div>
+    </div>
+    <br />
+    <div class="latency-control">
+      <div id="targetPlaybackRateText">
+        PlaybackRate: <span id="targetPlaybackRate">120%</span> <span id="speedPlaybackRate">(catch up)</span>
+      </div>
+    </div>
+    <br />
+    <div class="slide-container">
+      <input type="range" min="100" max="150" value="120" step="5" class="slider" id="targetPlaybackRateSlider">
+    </div>
+    <br />
+  </div>
+  <br />
+  <canvas id="myChart" width="400" height="400"></canvas>
+</div>

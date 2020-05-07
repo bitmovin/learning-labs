@@ -1,0 +1,39 @@
+figure {
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  color: black;
+  text-align: center;
+}
+
+.container a {
+  color: black;
+}
+
+.container h1 {
+  margin-bottom: 22px;
+  line-height: 66px;
+}
+
+.container h2 {
+  font-weight: normal;
+  margin-bottom: 36px;
+  line-height: 26px;
+}
+
+.player-wrapper {
+  width: 80%;
+  margin: 20px auto;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.7);
+}
+
+.bmpui-ui-watermark {
+  background-image: url("https://upload.wikimedia.org/wikipedia/commons/9/9b/Las_vegas_sign.svg");
+  background-size: contain;
+}
+
+.bmpui-ui-playbacktimelabel {
+  color: #ffffff;
+}

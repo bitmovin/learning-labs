@@ -1,0 +1,39 @@
+<script type="text/javascript" src="https://cdn.bitmovin.com/player/web/8/bitmovinplayer.js"></script>
+<div class="container">
+  <div class="content">
+      <br/>
+      <input class="form-control input-sm" id="dashManifest" type="text" placeholder="DASH"
+             value="//bitmovin-a.akamaihd.net/content/MI201109210084_1/mpds/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.mpd">
+      <input class="form-control input-sm" id="hlsManifest" type="text" placeholder="HLS"
+             value="//bitmovin-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8">
+      <input class="form-control input-sm" id="smoothManifest" type="text" placeholder="Smooth">
+      <input class="form-control input-sm" id="mp4Url" type="text" placeholder="mp4">
+      <input class="form-control input-sm" id="posterImage" type="text" placeholder="poster">
+      <input class="form-control input-sm" id="vttFile" type="text" placeholder="vtt">
+    <br/>
+    <button type="submit" class="btn btn-dark" id="unloadSourceButton">Unload</button>
+    <button type="submit" class="btn btn-dark" id="loadSourceButton">Load</button>
+    <br/>
+    <br/>
+
+    <div class="player-wrapper">
+      <div id="player"></div>
+    </div>
+    <br/>
+        
+    <br/>
+    <p1>Video Buffer</p1>
+    <div class="progress">
+      <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%" id="videoBuffer"></div>
+    </div>
+    <br/>
+    
+    <p1>Audio Buffer</p1>
+    <div class="progress">
+      <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%" id="audioBuffer"></div>
+    </div>
+    <br/>
+    <canvas id="myChart" width="400" height="400"></canvas>
+    
+  </div>
+</div>

@@ -1,0 +1,39 @@
+figure {
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  color: black;
+  text-align: center;
+}
+
+.container a {
+  color: black;
+}
+
+.container h1 {
+  margin-bottom: 22px;
+  line-height: 66px;
+}
+
+.container h2 {
+  font-weight: normal;
+  margin-bottom: 36px;
+  line-height: 26px;
+}
+
+.player-wrapper {
+  width: 80%;
+  margin: 20px auto;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.7);
+}
+
+.bmpui-ui-watermark {
+  background-image: url("https://image.flaticon.com/icons/png/512/121/121304.png");
+  background-size: contain;
+}
+
+.bmpui-ui-playbacktimelabel {
+  color: #374738;
+}
