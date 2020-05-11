@@ -5,6 +5,8 @@ Bitmovin believes it's important to spread knowledge and educate as many people 
 In this repo you can find all the complete code examples covering the main components of online video: encoding, player and analytics.
 The examples are split into multiple branches and folders, within each there is a fully functioning example that you can also run locally (with an API key).
 
+For an in depth coverage of video topics, check out the resources at: [Bitmovin's Developer Network](https://bitmovin.dev)
+
 # Prerequisites
 - A player license API key for the player examples
 - An encoding license API key for the encoding examples
