@@ -23,7 +23,7 @@ def validate_config():
     assert (config.S3_SECRET_KEY != ''), "S3_SECRET_KEY is not set"
     assert (config.MY_ID != ''), "MY_ID is not set"
 
-    print("Your configuration appears complete")
+    return "Your configuration appears complete"
 
 
 def build_output_path():
