@@ -1,11 +1,11 @@
 from IPython.display import Markdown, display
 
 
-def print_high(msg):
+def info(msg):
     display(Markdown(f"**{msg}**"))
 
 
-def print_ok(msg):
-    Markdown(
+def ok(msg):
+    display(Markdown(
         f"<pre><font color='green'>{msg}</font></pre>"
-    )
+    ))
