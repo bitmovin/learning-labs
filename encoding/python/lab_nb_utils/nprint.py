@@ -7,5 +7,11 @@ def info(msg):
 
 def ok(msg):
     display(Markdown(
-        f"<pre><font color='green'>{msg}</font></pre>"
+        f"<font color='green'>{msg}</font>"
+    ))
+
+
+def error(msg):
+    display(Markdown(
+        f"<font color='red'>{msg}</font>"
     ))
