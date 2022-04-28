@@ -34,7 +34,7 @@ def resource(msg, res):
     id = getattr(res, 'id', None)
     name = getattr(res, 'name', None)
 
-    display(_build_msg(msg=f"{msg} {res.__class__.__name__} - ",
+    display(_build_msg(msg=f"{msg} <font color='blue'>{res.__class__.__name__}</font> - ",
                        id=id,
                        label=name,
                        color='blue',
