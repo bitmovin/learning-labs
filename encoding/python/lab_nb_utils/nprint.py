@@ -1,4 +1,4 @@
-from IPython.display import Markdown, display
+from IPython.display import Markdown, display, HTML
 
 
 def _build_msg(msg, id=None, label=None, color=None, bold=True):
