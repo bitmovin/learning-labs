@@ -1,5 +1,6 @@
 import uuid
 import config
+import nprint
 
 
 def get_uuid():
@@ -36,3 +37,22 @@ def build_output_path():
 def build_dashboard_url(encoding_id):
     return f"https://bitmovin.com/dashboard/encoding/encodings/{encoding_id}?apiKey={config.API_KEY}&orgId={config.ORG_ID}"
 
+
+def patch_for_nprint(original_func):
+    def wrapper(self, method, relative_url, payload=None, raw_response=False, query_params=None, **kwargs):
+        # run original function
+        res = original_func(self, method, relative_url, payload, raw_response, query_params, **kwargs)
+
+        if res.__class__.__name__ not in ['BitmovinResponse']:
+            m = ""
+            if method == "POST":
+                m = "Created"
+            if method == "GET":
+                m = "Retrieved"
+
+            nprint.resource(m, res)
+
+        # return results of the original function
+        return res
+
+    return wrapper

@@ -52,3 +52,4 @@ def section(msg):
 def subsection(msg):
     display(HTML("<hr style='border-top: dashed 1px lightgray;'></hr>"))
     display(_build_msg(msg, None, None, 'gray', True))
+
