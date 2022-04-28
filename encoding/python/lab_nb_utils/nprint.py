@@ -28,3 +28,14 @@ def error(msg, val=None):
 
 def debug(msg, val=None):
     display(_build_msg(msg, val, None, 'gray', None))
+
+
+def resource(msg, res):
+    id = getattr(res, 'id', None)
+    name = getattr(res, 'name', None)
+
+    display(_build_msg(msg=f"{msg} {res.__class__.__name__} - ",
+                       id=id,
+                       label=name,
+                       color='blue',
+                       bold=True))
