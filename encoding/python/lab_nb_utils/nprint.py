@@ -34,7 +34,11 @@ def resource(msg, res):
     id = getattr(res, 'id', None)
     name = getattr(res, 'name', None)
 
-    display(_build_msg(msg=f"{msg} <font color='blue'>{res.__class__.__name__}</font> - ",
+    out = f"{msg} <font color='blue'>{res.__class__.__name__}</font>"
+    if name:
+        out += " - "
+
+    display(_build_msg(msg=out,
                        id=id,
                        label=name,
                        bold=True))
