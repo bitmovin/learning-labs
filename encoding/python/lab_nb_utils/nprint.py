@@ -1,28 +1,30 @@
 from IPython.display import Markdown, display
 
 
-def _build_msg(msg, code=None, color=None, bold=True):
+def _build_msg(msg, id=None, label=None, color=None, bold=True):
     out = msg
-    if code:
-        out += f" <code>{code}</code>"
+    if id:
+        out += f" <code>{id}</code>"
     if bold:
         out = f"<b>{out}</b>"
     if color:
         out = f"<font color='{color}'>{out}</font>"
+    if label:
+        out += f"&nbsp;&nbsp;<font color='cadetblue'>[ {label} ]</font>"
     return Markdown(out)
 
 
-def info(msg, val=None):
-    display(_build_msg(msg, val, None, True))
+def info(msg, val=None, label=None):
+    display(_build_msg(msg, val, label, None, True))
 
 
 def ok(msg, val=None):
-    display(_build_msg(msg, val, 'green', True))
+    display(_build_msg(msg, val, None, 'green', True))
 
 
 def error(msg, val=None):
-    display(_build_msg(msg, val, 'red', True))
+    display(_build_msg(msg, val, None, 'red', True))
 
 
 def debug(msg, val=None):
-    display(_build_msg(msg, val, 'gray', None))
+    display(_build_msg(msg, val, None, 'gray', None))
