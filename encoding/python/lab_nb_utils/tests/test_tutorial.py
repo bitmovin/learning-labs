@@ -1,0 +1,84 @@
+import os
+import uuid
+from unittest import TestCase
+
+import config as cfg
+import tutorial
+
+
+class TestManifestBuilder(TestCase):
+    def setUp(self) -> None:
+        self.tu = tutorial.TutorialHelper(printer="print")
+
+    def test_validate(self):
+        cfg.API_KEY = ""
+        self.tu.validate()
+
+    def test__validate_apikey(self):
+        cfg.API_KEY = ""
+        with self.assertRaises(ValueError) as context:
+            self.tu._validate_api_key()
+        self.assertIn("API_KEY is not set",
+                      context.exception.args[0])
+
+        cfg.API_KEY = "fsdfs"
+        with self.assertRaises(ValueError) as context:
+            self.tu._validate_api_key()
+        self.assertIn("API_KEY should be a UUID",
+                      context.exception.args[0])
+
+        cfg.API_KEY = str(uuid.uuid4())
+        with self.assertRaises(ValueError) as context:
+            self.tu._validate_api_key()
+        self.assertIn("not recognized",
+                      context.exception.args[0])
+
+        cfg.API_KEY = os.environ['BITMOVIN_API_KEY']
+        self.tu._validate_api_key()
+
+    def test__validate_orgid_invalid_inputs(self):
+        cfg.API_KEY = os.environ.get('BITMOVIN_API_KEY')
+
+        cfg.ORG_ID = "fsdfs"
+        with self.assertRaises(ValueError) as context:
+            self.tu._validate_org_id()
+        self.assertIn("ORG_ID should be a UUID",
+                      context.exception.args[0])
+
+        cfg.ORG_ID = str(uuid.uuid4())
+        with self.assertRaises(ValueError) as context:
+            self.tu._validate_org_id()
+        self.assertIn("not have permissions",
+                      context.exception.args[0])
+
+    def test__validate_orgid_not_a_tenant(self):
+        cfg.API_KEY = os.environ.get("VALID_USER_API_KEY")
+        cfg.ORG_ID = os.environ.get("ORG_USER_IS_NOT_TENANT_OF")
+        self.tu._validate_api_key()
+        with self.assertRaises(ValueError) as context:
+            self.tu._validate_org_id()
+        self.assertIn("not have permissions",
+            context.exception.args[0])
+
+    def test__validate_orgid_all_valid(self):
+        cfg.API_KEY = os.environ.get("BITMOVIN_API_KEY")
+        cfg.ORG_ID = os.environ.get("BITMOVIN_ORG_ID")
+        self.tu._validate_org_id()
+
+
+def test__validate_label(self):
+        cfg.MY_LABEL = "bla di bla"
+        l = self.tu._validate_label()
+        self.assertEqual(l, "BlaDiBla")
+
+        cfg.MY_LABEL = "bladibla"
+        l = self.tu._validate_label()
+        self.assertEqual(l, "bladibla")
+
+        cfg.MY_LABEL = "I like > 1039 $%^&*"
+        l = self.tu._validate_label()
+        self.assertEqual(l, "ILike1039")
+
+        cfg.MY_LABEL = ""
+        l = self.tu._validate_label()
+        self.assertNotEqual(l, "")
