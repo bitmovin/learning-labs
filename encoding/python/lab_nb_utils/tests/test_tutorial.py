@@ -6,7 +6,7 @@ import config as cfg
 import tutorial
 
 
-class TestManifestBuilder(TestCase):
+class TestTutorialHelper(TestCase):
     def setUp(self) -> None:
         self.tu = tutorial.TutorialHelper(printer="print")
 
@@ -58,7 +58,7 @@ class TestManifestBuilder(TestCase):
         with self.assertRaises(ValueError) as context:
             self.tu._validate_org_id()
         self.assertIn("not have permissions",
-            context.exception.args[0])
+                      context.exception.args[0])
 
     def test__validate_orgid_all_valid(self):
         cfg.API_KEY = os.environ.get("BITMOVIN_API_KEY")
@@ -66,7 +66,7 @@ class TestManifestBuilder(TestCase):
         self.tu._validate_org_id()
 
 
-def test__validate_label(self):
+    def test__validate_label(self):
         cfg.MY_LABEL = "bla di bla"
         l = self.tu._validate_label()
         self.assertEqual(l, "BlaDiBla")
@@ -82,3 +82,19 @@ def test__validate_label(self):
         cfg.MY_LABEL = ""
         l = self.tu._validate_label()
         self.assertNotEqual(l, "")
+
+
+    def test__validate_output(self):
+        cfg.OUTPUT_ID = "0d40af80-4f66-40a6-87b0-ed33b590f4a2"
+        with self.assertRaises(ValueError) as context:
+            self.tu._validate_output()
+        self.assertIn("invalid or is not a resource",
+                  context.exception.args[0])
+
+        cfg.API_KEY = os.environ.get("BITMOVIN_API_KEY")
+        cfg.ORG_ID = os.environ.get("BITMOVIN_ORG_ID")
+        self.tu._validate_org_id()
+        cfg.OUTPUT_ID = "2974359b-dd11-4645-b3ec-593e4e877e8e"
+        self.tu._validate_output()
+
+

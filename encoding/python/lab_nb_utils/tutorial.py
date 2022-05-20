@@ -28,15 +28,20 @@ class TutorialHelper:
         else:
             raise Exception("Module 'config' not found")
 
-    def validate(self):
+    def validate(self, output=True):
         self._reload_config()
         try:
             self._validate_api_key()
             self._validate_org_id()
-            self._validate_output()
+            if output:
+                self._validate_output()
             self._validate_label()
 
-            self.printer.ok("Your configuration appears complete")
+            output_path = self.output_path
+            self.printer.info("Your output files will be written into folder {path}",
+                              highvars=dict(path=output_path))
+
+            self.printer.ok("Your configuration appears complete. You are good to go!")
         except Exception as e:
             self.printer.error("There is an issue with your configuration: ")
             self.printer.error(e.args[0], bold=True)
@@ -55,10 +60,10 @@ class TutorialHelper:
             self.user = self.api.account.information.get()
             if self.user.first_name:
                 self.printer.info("Hi {fn}, and welcome to this tutorial!",
-                                  vars=dict(fn=self.user.first_name))
+                                  highvars=dict(fn=self.user.first_name))
             else:
                 self.printer.info("Hi {em}, and welcome to this tutorial!",
-                                  vars=dict(em=self.user.email))
+                                  highvars=dict(em=self.user.email))
 
         except Exception:
             raise ValueError("The API_KEY is not recognized as a valid one by the Bitmovin platform")
@@ -95,19 +100,24 @@ class TutorialHelper:
                 raise "You need to define all 3 of S3_BUCKET_NAME, S3_ACCESS_KEY and S3_SECRET_KEY"
 
             try:
-                sts = boto3.client('sts', aws_access_key_id=config.S3_ACCESS_KEY, aws_secret_access_key=config.S3_SECRET_KEY)
-                response = sts.get_caller_identity()
-
-                s3 = boto3.client('s3', aws_access_key_id=config.S3_ACCESS_KEY, aws_secret_access_key=config.S3_SECRET_KEY)
+                s3 = boto3.client('s3', aws_access_key_id=config.S3_ACCESS_KEY,
+                                  aws_secret_access_key=config.S3_SECRET_KEY)
                 s3.head_bucket(Bucket=config.S3_BUCKET_NAME)
+                self.printer.info("The S3 bucket {bucket} is reachable and will be used to store outputs",
+                                  highvars=dict(bucket=config.S3_BUCKET_NAME))
             except Exception as e:
-                raise "There seems to be a problem accessing the S3 bucket. Do you have the correct details?"
+                raise ValueError(
+                    "There seems to be a problem accessing the S3 bucket. Do you have the correct details?")
         else:
             try:
-                output = self.api.encoding.outputs.s3.get(output_id=config.OUTPUT_ID)
-                self.printer.text("The output bucket is {bucket}", highvars=dict(bucket=output.bucket_name))
-            except bm.BitmovinError:
-                raise "This OUTPUT_ID does not exist or is not in this organisation"
+                output = self.api.encoding.outputs.get(output_id=config.OUTPUT_ID)
+                output_type = next(k for k, v in output.discriminator_value_class_map.items()
+                                   if v == output.__class__.__name__)
+                self.printer.info("The {type} storage into which outputs will be stored is {name}",
+                                  highvars=dict(name=output.bucket_name or output.name,
+                                                type=output_type))
+            except Exception as e:
+                raise ValueError("This OUTPUT_ID is invalid or is not a resource in this organization")
 
     def _validate_label(self):
         if not config.MY_LABEL:
@@ -129,8 +139,6 @@ class TutorialHelper:
     @property
     def output_path(self):
         output_path = f"outputs/{config.MY_LABEL}-{str(uuid.uuid4())[:8]}"
-        self.printer.text("Your output files will be written into folder {path}",
-                          highvars=dict(path=output_path))
         return output_path
 
 
