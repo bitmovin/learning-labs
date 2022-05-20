@@ -11,7 +11,7 @@ class TestTutorialHelper(TestCase):
         self.tu = tutorial.TutorialHelper(printer="print")
 
     def test_validate(self):
-        cfg.API_KEY = ""
+        cfg.API_KEY = os.environ.get("BITMOVIN_API_KEY")
         self.tu.validate()
 
     def test__validate_apikey(self):
