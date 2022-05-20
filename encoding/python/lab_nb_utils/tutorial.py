@@ -158,14 +158,15 @@ def nprint_patch(original_func, np: nprint.TutorialPrinter):
         # run original function
         res = original_func(self, method, relative_url, payload, raw_response, query_params, **kwargs)
 
-        if res.__class__.__name__ not in ['BitmovinResponse']:
-            m = ""
-            if method == "POST":
-                m = "Created"
-            if method == "GET":
-                m = "Retrieved"
+        if not relative_url.startswith("/account"):
+            if res.__class__.__name__ not in ['BitmovinResponse']:
+                m = ""
+                if method == "POST":
+                    m = "Created"
+                if method == "GET":
+                    m = "Retrieved"
 
-            np.resource(m, res)
+                np.resource(m, res)
 
         # return results of the original function
         return res
