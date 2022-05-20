@@ -143,7 +143,7 @@ class TutorialHelper:
         output_path = f"outputs/{config.MY_LABEL}-{str(uuid.uuid4())[:8]}"
         return output_path
 
-    def get_dashboard_url(encoding_id):
+    def get_dashboard_url(self, encoding_id):
         return f"https://bitmovin.com/dashboard/encoding/encodings/{encoding_id}?apiKey={config.API_KEY}&orgId={config.ORG_ID}"
 
 
