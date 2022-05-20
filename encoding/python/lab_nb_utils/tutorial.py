@@ -17,6 +17,8 @@ class TutorialHelper:
 
         self.printer = nprint.TutorialPrinter(output_type=printer)
 
+        bm.ApiClient.request = nprint_patch(bm.ApiClient.request, self.printer)
+
     def _reload_config(self):
         module = globals().get('config', None)
         if module:
@@ -149,4 +151,27 @@ def camelize(string):
     return string
 
 
+def nprint_patch(original_func, np: nprint.TutorialPrinter):
+    """ Monkey path for the API client, to output details of any created resource """
+
+    def wrapper(self, method, relative_url, payload=None, raw_response=False, query_params=None, **kwargs):
+        # run original function
+        res = original_func(self, method, relative_url, payload, raw_response, query_params, **kwargs)
+
+        if res.__class__.__name__ not in ['BitmovinResponse']:
+            m = ""
+            if method == "POST":
+                m = "Created"
+            if method == "GET":
+                m = "Retrieved"
+
+            np.resource(m, res)
+
+        # return results of the original function
+        return res
+
+    return wrapper
+
+
 helper = TutorialHelper()
+printer = helper.printer
