@@ -143,9 +143,15 @@ class TutorialHelper:
         output_path = f"outputs/{config.MY_LABEL}-{str(uuid.uuid4())[:8]}"
         return output_path
 
-    def get_dashboard_url(self, encoding_id):
-        return f"https://bitmovin.com/dashboard/encoding/encodings/{encoding_id}?apiKey={config.API_KEY}&orgId={config.ORG_ID}"
+    @staticmethod
+    def get_dashboard_url(encoding_id):
+        return f"https://bitmovin.com/dashboard/encoding/encodings/{encoding_id}?" \
+               f"apiKey={config.API_KEY}&orgId={config.ORG_ID}"
 
+    @staticmethod
+    def get_player_test_url(manifest_type, manifest_url):
+        return f"https://bitmovin.com/demos/stream-test?" \
+               f"format={manifest_type}&manifest={manifest_url}"
 
 def camelize(string):
     if not string.isalnum():
