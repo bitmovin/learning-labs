@@ -78,7 +78,7 @@ class TutorialPrinter:
         if id:
             out += " with id <b>{id}</b>"
 
-        return self._build_msg(msg=out, codevars=dict(id=id), label=name, bold=False)
+        return self._build_msg(msg=out, codevars=dict(id=id), bold=False)
 
     def section(self, msg):
         if self.output_type == "IPython":
@@ -86,7 +86,7 @@ class TutorialPrinter:
         if self.output_type == "print":
             print("================")
 
-        return self._build_msg(msg, None, None, 'gray', True)
+        return self._build_msg(msg, color='gray', bold=True)
 
     def subsection(self, msg):
         if self.output_type == "IPython":
@@ -94,7 +94,7 @@ class TutorialPrinter:
         if self.output_type == "print":
             print("------------")
 
-        return self._build_msg(msg, None, None, 'gray', True)
+        return self._build_msg(msg, color='gray', bold=True)
 
 
 class StringTemplate(object):
