@@ -6,16 +6,16 @@ class TutorialPrinter:
 
     def __init__(self, output_type: str = "IPython"):
         self.output_type = output_type
-        self.level = 1
+        self._level = 1
 
     @property
     def level(self):
-        return self.level
+        return self._level
 
     @level.setter
     def level(self, value):
         if isinstance(value, int):
-            self.level = value
+            self._level = value
 
     def _output(self, msg):
         if self.output_type == "IPython":
