@@ -163,13 +163,10 @@ def nprint_patch(original_func, np: nprint.TutorialPrinter):
 
         if not relative_url.startswith("/account"):
             if res.__class__.__name__ not in ['BitmovinResponse']:
-                m = ""
-                if method == "POST":
-                    m = "Created"
-                if method == "GET":
-                    m = "Retrieved"
+                np.info_rest_operation(method, res, relative_url)
 
-                np.resource(m, res)
+        # if not isinstance(self.rest_client.logger, bm.BitmovinApiLogger):
+        #     self.rest_client.logger.log('RESPONSE: {}'.format("DATA"), res)
 
         # return results of the original function
         return res

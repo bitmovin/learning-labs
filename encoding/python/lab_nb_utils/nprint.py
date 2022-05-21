@@ -6,6 +6,16 @@ class TutorialPrinter:
 
     def __init__(self, output_type: str = "IPython"):
         self.output_type = output_type
+        self.level = 1
+
+    @property
+    def level(self):
+        return self.level
+
+    @level.setter
+    def level(self, value):
+        if isinstance(value, int):
+            self.level = value
 
     def _output(self, msg):
         if self.output_type == "IPython":
@@ -14,7 +24,7 @@ class TutorialPrinter:
             print(msg)
             return msg
 
-    def _build_msg(self, msg, vars: dict = None, codevars: dict = None, highvars: dict = None, label=None, color=None, bold=False):
+    def _build_msg(self, msg, vars: dict = None, codevars: dict = None, highvars: dict = None, color=None, bold=False):
         sts = StringTemplate(msg)
         if vars:
             sts.format(**vars)
@@ -31,8 +41,6 @@ class TutorialPrinter:
             out = f"<b>{out}</b>"
         if color:
             out = f"<font color='{color}'>{out}</font>"
-        if label:
-            out += f"&nbsp;&nbsp;<font color='cadetblue'>[ {label} ]</font>"
 
         return self._output(out)
 
@@ -54,13 +62,21 @@ class TutorialPrinter:
     def debug(self, msg, **kwargs):
         return self._build_msg(msg, color='gray', **kwargs)
 
-    def resource(self, msg, res):
+    def info_rest_operation(self, method, res, url):
         id = getattr(res, 'id', None)
         name = getattr(res, 'name', None)
 
-        out = f"{msg} <b><font color='blue'>{res.__class__.__name__}</font></b>"
+        if self.level < 2:
+            if method == "POST":
+                method = "Created"
+            if method == "GET":
+                method = "Retrieved"
+
+        out = f"{method} <b><font color='blue'>{res.__class__.__name__}</font></b>"
         if name:
-            out += " - <b>{id}</b>"
+            out += "`<font color='cadetblue'>{label}</font>`"
+        if id:
+            out += " with id <b>{id}</b>"
 
         return self._build_msg(msg=out, codevars=dict(id=id), label=name, bold=False)
 

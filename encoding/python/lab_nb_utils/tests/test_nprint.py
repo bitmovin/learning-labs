@@ -41,7 +41,7 @@ class TestManifestBuilder(TestCase):
 
         obj = Resource(id="bli", name="bla")
 
-        out = self.nprint.resource("Here is it", obj)
+        out = self.nprint.info_rest_operation("Here is it", obj)
         self.assertEqual(out, "Here is it <b><font color='blue'>Resource</font></b> - <b><code>bli</code>"
                               "</b>&nbsp;&nbsp;<font color='cadetblue'>[ bla ]</font>")
 
