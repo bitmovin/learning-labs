@@ -4,7 +4,8 @@ from IPython.display import Markdown, display, HTML
 
 class TutorialPrinter:
 
-    def __init__(self, output_type: str = "IPython", level: int = 1):
+    def __init__(self, tutorial_helper, output_type: str = "IPython", level: int = 1):
+        self.tutorial_helper = tutorial_helper
         self.output_type = output_type
         self.level = level
 
@@ -53,6 +54,14 @@ class TutorialPrinter:
     def debug(self, msg, **kwargs):
         return self._build_msg(msg, color='gray', **kwargs)
 
+    def _link(self, url, target="_new", text=None):
+        html = f"<a href='{url}' target='{target}'>{text or url}</a>"
+        return html
+
+    def link(self, url, target="_new", text=None):
+        html = self._link(url, target, text)
+        return self._build_msg(html)
+
     def info_rest_operation(self, method, res, url):
         id = getattr(res, 'id', None)
         name = getattr(res, 'name', None)
@@ -68,6 +77,12 @@ class TutorialPrinter:
             out += f" \"<font color='cadetblue'>{name}</font>\""
         if id:
             out += f" with id <b><code>{id}</code></b>"
+
+        dash_url = self.tutorial_helper.get_dashboard_url(res)
+        if dash_url:
+            out += " [{}]".format(self._link(dash_url,
+                                             target='dashboard',
+                                             text="in dashboard"))
 
         return self._build_msg(msg=out, bold=False)
 
@@ -104,4 +119,3 @@ class StringTemplate(object):
         mapping = StringTemplate.FormatDict(*args, **kwargs)
         self.substituted_str = self.formatter.vformat(self.substituted_str, (), mapping)
         return self.__repr__()
-

@@ -15,7 +15,7 @@ class TutorialHelper:
         self.user = None
         self.org = None
 
-        self.printer = nprint.TutorialPrinter(output_type=printer)
+        self.printer = nprint.TutorialPrinter(output_type=printer, tutorial_helper=self)
 
         bm.ApiClient.request = nprint_patch(bm.ApiClient.request, self.printer)
 
@@ -144,9 +144,27 @@ class TutorialHelper:
         return output_path
 
     @staticmethod
-    def get_dashboard_url(encoding_id):
-        return f"https://bitmovin.com/dashboard/encoding/encodings/{encoding_id}?" \
-               f"apiKey={config.API_KEY}&orgId={config.ORG_ID}"
+    def get_dashboard_url(resource):
+        base_url = "https://bitmovin.com/dashboard/encoding/"
+        url = None
+        if isinstance(resource, bm.Encoding):
+            url = f"encodings/{resource.id}"
+        if isinstance(resource, bm.Input):
+            url = f"inputs/{resource.id}"
+        if isinstance(resource, bm.Output):
+            url = f"outputs/{resource.id}"
+
+        params = f"apiKey={config.API_KEY}"
+        if config.ORG_ID:
+            params += f"&orgId={config.ORG_ID}"
+
+        if url:
+            return f"{base_url}{url}?{params}"
+
+    def add_dashboard_link(self, resource):
+        url = self.get_dashboard_url(resource)
+        self.printer.link(url, target='dashboard')
+
 
     @staticmethod
     def get_player_test_url(manifest_type, manifest_url):
