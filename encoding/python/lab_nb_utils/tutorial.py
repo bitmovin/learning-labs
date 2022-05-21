@@ -99,7 +99,7 @@ class TutorialHelper:
     def _validate_output(self):
         if not getattr(config, 'OUTPUT_ID'):
             if not config.S3_ACCESS_KEY or not config.S3_BUCKET_NAME or not config.S3_SECRET_KEY:
-                raise "You need to define all 3 of S3_BUCKET_NAME, S3_ACCESS_KEY and S3_SECRET_KEY"
+                raise ValueError("You need to define all 3 of S3_BUCKET_NAME, S3_ACCESS_KEY and S3_SECRET_KEY")
 
             try:
                 s3 = boto3.client('s3', aws_access_key_id=config.S3_ACCESS_KEY,

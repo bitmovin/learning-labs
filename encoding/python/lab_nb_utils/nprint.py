@@ -4,18 +4,9 @@ from IPython.display import Markdown, display, HTML
 
 class TutorialPrinter:
 
-    def __init__(self, output_type: str = "IPython"):
+    def __init__(self, output_type: str = "IPython", level: int = 1):
         self.output_type = output_type
-        self._level = 1
-
-    @property
-    def level(self):
-        return self._level
-
-    @level.setter
-    def level(self, value):
-        if isinstance(value, int):
-            self._level = value
+        self.level = level
 
     def _output(self, msg):
         if self.output_type == "IPython":
@@ -72,13 +63,13 @@ class TutorialPrinter:
             if method == "GET":
                 method = "Retrieved"
 
-        out = f"{method} <b><font color='blue'>{res.__class__.__name__}</font></b>"
+        out = f"{method} <b><font color='blue'><code>{res.__class__.__name__}</code></font></b>"
         if name:
-            out += "\"<font color='cadetblue'>{label}</font>\""
+            out += f" \"<font color='cadetblue'>{name}</font>\""
         if id:
-            out += " with id <b>{id}</b>"
+            out += f" with id <b><code>{id}</code></b>"
 
-        return self._build_msg(msg=out, codevars=dict(id=id), bold=False)
+        return self._build_msg(msg=out, bold=False)
 
     def section(self, msg):
         if self.output_type == "IPython":
