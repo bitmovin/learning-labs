@@ -74,7 +74,7 @@ class TutorialPrinter:
 
         out = f"{method} <b><font color='blue'>{res.__class__.__name__}</font></b>"
         if name:
-            out += "`<font color='cadetblue'>{label}</font>`"
+            out += "\"<font color='cadetblue'>{label}</font>\""
         if id:
             out += " with id <b>{id}</b>"
 
