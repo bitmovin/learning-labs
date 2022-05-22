@@ -212,6 +212,8 @@ class TutorialHelper:
 
         self.printer.text(msg=out, bold=False)
 
+        return None
+
         # try:
         #     if self.api_logger.last_method:
         #         operation = "{} {}".format(self.api_logger.last_method,

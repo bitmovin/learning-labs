@@ -19,7 +19,7 @@ class TutorialPrinter:
                 display(msg)
         if self.output_type == "print":
             print(msg)
-            # return msg
+            return msg
 
     def _build_msg(self, msg, vars: dict = None, codevars: dict = None, highvars: dict = None, color=None, bold=False):
         sts = StringTemplate(msg)
