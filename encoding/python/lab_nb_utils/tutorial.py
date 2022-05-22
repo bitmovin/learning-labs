@@ -224,12 +224,13 @@ class TutorialHelper:
 
             response_payload = None
             if self.api_logger.last_response:
+                print(self.api_logger.last_response)
                 j = json.loads(self.api_logger.last_response)
                 response_payload = json.dumps(j, indent=2)
                 self.printer.code(response_payload)
 
         except Exception as e:
-            pass
+            self.printer.error(e)
 
 
     @staticmethod

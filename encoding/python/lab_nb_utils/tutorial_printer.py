@@ -13,7 +13,10 @@ class TutorialPrinter:
 
     def _output(self, msg):
         if self.output_type == "IPython":
-            display(Markdown(msg))
+            if isinstance(msg, str):
+                display(Markdown(msg))
+            else:
+                display(msg)
         if self.output_type == "print":
             print(msg)
             return msg
