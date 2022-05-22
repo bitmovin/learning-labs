@@ -18,7 +18,7 @@ class TutorialPrinter:
             else:
                 display(msg)
         if self.output_type == "print":
-            print(msg)
+            # print(msg)
             return msg
 
     def _build_msg(self, msg, vars: dict = None, codevars: dict = None, highvars: dict = None, color=None, bold=False):
@@ -87,10 +87,6 @@ class TutorialPrinter:
 
         return self._build_msg(msg, color='gray', bold=True)
 
-    def hbox(self, cols):
-        widget_cols = [widgets.Text(c) for c in cols]
-        hbox = widgets.HBox(widget_cols)
-        self._output(hbox)
 
 class StringTemplate(object):
     class FormatDict(dict):
