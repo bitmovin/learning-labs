@@ -74,15 +74,19 @@ class TutorialPrinter:
 
         out = f"{method} <b><font color='blue'><code>{res.__class__.__name__}</code></font></b>"
         if name:
-            out += f" \"<font color='cadetblue'>{name}</font>\""
+            # out += f" \"<font color='cadetblue'>{name}</font>\""
+            out += f" \"<i>{name}</i>\""
         if id:
-            out += f" with id <b><code>{id}</code></b>"
+            out += f" with id "
+            id_h = f"<code>{id}</code>"
 
-        dash_url = self.tutorial_helper.get_dashboard_url(res)
-        if dash_url:
-            out += " [{}]".format(self._link(dash_url,
-                                             target='dashboard',
-                                             text="in dashboard"))
+            dash_url = self.tutorial_helper.get_dashboard_url(res)
+            if dash_url:
+                out += self._link(dash_url,
+                                  target='dashboard',
+                                  text=id_h)
+            else:
+                out += id_h
 
         return self._build_msg(msg=out, bold=False)
 
