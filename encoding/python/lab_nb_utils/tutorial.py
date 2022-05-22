@@ -197,7 +197,7 @@ class TutorialHelper:
         out = f"{method} <b><font color='blue'><code>{res.__class__.__name__}</code></font></b>"
         if name:
             # out += f" \"<font color='cadetblue'>{name}</font>\""
-            out += f" \"<i>{name}</i>\""
+            out += f" \"{name}\""
         if id:
             out += f" with id "
             id_h = f"<code>{id}</code>"
