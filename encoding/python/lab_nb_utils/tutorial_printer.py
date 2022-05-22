@@ -68,7 +68,7 @@ class TutorialPrinter:
         return self._build_msg(html)
 
     def codeblock(self, payload, color='transparent'):
-        html = HTML(f"<pre style='font-size: 85%; color={color}'>{payload}</pre>")
+        html = HTML(f"<pre style='font-size: 85%; background-color: {color}'>{payload}</pre>")
         return self._output(html)
 
     def section(self, msg):

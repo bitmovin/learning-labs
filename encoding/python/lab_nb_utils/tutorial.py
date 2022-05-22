@@ -214,23 +214,24 @@ class TutorialHelper:
 
         try:
             if self.api_logger.last_method:
-                self.printer.codeblock("{} {}".format(self.api_logger.last_method,
-                                                      self.api_logger.last_url),
-                                       color="aliceblue")
+                operation = "{} {}".format(self.api_logger.last_method,
+                                           self.api_logger.last_url)
 
-            if self.api_logger.last_payload:
-                j = json.loads(self.api_logger.last_payload)
-                request_payload = json.dumps(j, indent=2)
-                self.printer.codeblock(request_payload, color="aliceblue")
+                if self.api_logger.last_payload:
+                    j = json.loads(self.api_logger.last_payload)
+                    request_payload = json.dumps(j, indent=10)
+                    operation += f"\n{request_payload}"
 
-            if self.api_logger.last_response:
-                j = json.loads(self.api_logger.last_response)
-                response_payload = json.dumps(j, indent=2)
-                self.printer.codeblock(response_payload, color="antiquewhite")
+                self.printer.codeblock(operation, color="aliceblue")
+
+                if self.api_logger.last_response:
+                    j = json.loads(self.api_logger.last_response)
+                    response_payload = json.dumps(j, indent=5)
+                    self.printer.codeblock(response_payload, color="antiquewhite")
 
         except Exception as e:
-            self.printer.error(e)
-
+            # self.printer.error(e)
+            pass
 
     @staticmethod
     def get_player_test_url(manifest_type, manifest_url):
