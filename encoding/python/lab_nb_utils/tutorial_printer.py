@@ -1,4 +1,6 @@
 import string
+
+import IPython.display
 from IPython.display import Markdown, display, HTML
 from ipywidgets import widgets
 
@@ -61,6 +63,10 @@ class TutorialPrinter:
     def link(self, url, target="_new", text=None):
         html = self._link(url, target, text)
         return self._build_msg(html)
+
+    def code(self, payload):
+        html = HTML(f"<code style='font-size: 90%'>{payload}</code>")
+        return self._output(html)
 
     def section(self, msg):
         if self.output_type == "IPython":
