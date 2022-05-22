@@ -21,7 +21,7 @@ class TutorialHelper:
 
         self.printer = TutorialPrinter(output_type=printer)
 
-        bm.ApiClient.request = self.nprint_patch(bm.ApiClient.request)
+        # bm.ApiClient.request = self.nprint_patch(bm.ApiClient.request)
 
     def _reload_config(self):
         module = globals().get('config', None)
@@ -212,28 +212,26 @@ class TutorialHelper:
 
         self.printer.text(msg=out, bold=False)
 
-        return None
+        try:
+            if self.api_logger.last_method:
+                operation = "{} {}".format(self.api_logger.last_method,
+                                           self.api_logger.last_url)
 
-        # try:
-        #     if self.api_logger.last_method:
-        #         operation = "{} {}".format(self.api_logger.last_method,
-        #                                    self.api_logger.last_url)
-        #
-        #         if self.api_logger.last_payload:
-        #             j = json.loads(self.api_logger.last_payload)
-        #             request_payload = json.dumps(j, indent=10)
-        #             operation += f"\n{request_payload}"
-        #
-        #         self.printer.codeblock(operation, color="aliceblue")
-        #
-        #         if self.api_logger.last_response:
-        #             j = json.loads(self.api_logger.last_response)
-        #             response_payload = json.dumps(j, indent=5)
-        #             self.printer.codeblock(response_payload, color="antiquewhite")
-        #
-        # except Exception as e:
-        #     # self.printer.error(e)
-        #     pass
+                if self.api_logger.last_payload:
+                    j = json.loads(self.api_logger.last_payload)
+                    request_payload = json.dumps(j, indent=10)
+                    operation += f"\n{request_payload}"
+
+                self.printer.codebox(operation, color="aliceblue")
+
+                if self.api_logger.last_response:
+                    j = json.loads(self.api_logger.last_response)
+                    response_payload = json.dumps(j, indent=5)
+                    self.printer.codebox(response_payload, color="antiquewhite")
+
+        except Exception as e:
+            self.printer.error(e)
+            # pass
 
     @staticmethod
     def get_player_test_url(manifest_type, manifest_url):

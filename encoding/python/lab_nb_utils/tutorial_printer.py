@@ -71,6 +71,19 @@ class TutorialPrinter:
         html = HTML(f"<pre style='font-size: 85%; background-color: {color}'>{payload}</pre>")
         return self._output(html)
 
+    def codebox(self, title, body, color='transparent'):
+        html = HTML(f"""
+        <div class="wrapper" style="background-color:{color}; padding: 10px">
+            <div id="container" style="border:1px solid black; position:relative; border-radius:4px;
+                                       padding: 20px 10px 10px 10px;">
+                <div id="label" style="position:absolute; top:-12px; left:20px; padding:2px 5px 2px 5px;
+	                                   background-color:white; border:0px solid grey; border-radius:4px;
+                                       font-variant: small-caps;">{title}</div>
+                <pre style='font-size: 85%;'>{body}</pre>
+            </div>
+        </div>
+        """)
+
     def section(self, msg):
         if self.output_type == "IPython":
             display(HTML("<hr></hr>"))
