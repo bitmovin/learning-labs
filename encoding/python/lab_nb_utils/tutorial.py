@@ -214,20 +214,19 @@ class TutorialHelper:
 
         try:
             if self.api_logger.last_method:
-                self.printer.code("{} {}".format(self.api_logger.last_method,
-                                                 self.api_logger.last_url))
+                self.printer.codeblock("{} {}".format(self.api_logger.last_method,
+                                                      self.api_logger.last_url))
             request_payload = None
             if self.api_logger.last_payload:
                 j = json.loads(self.api_logger.last_payload)
                 request_payload = json.dumps(j, indent=2)
-                self.printer.code(request_payload)
+                self.printer.codeblock(request_payload)
 
             response_payload = None
             if self.api_logger.last_response:
-                print(self.api_logger.last_response)
                 j = json.loads(self.api_logger.last_response)
                 response_payload = json.dumps(j, indent=2)
-                self.printer.code(response_payload)
+                self.printer.codeblock(response_payload)
 
         except Exception as e:
             self.printer.error(e)
