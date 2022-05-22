@@ -1,11 +1,11 @@
 import string
 from IPython.display import Markdown, display, HTML
+from ipywidgets import widgets
 
 
 class TutorialPrinter:
 
-    def __init__(self, tutorial_helper, output_type: str = "IPython", level: int = 1):
-        self.tutorial_helper = tutorial_helper
+    def __init__(self, output_type: str = "IPython", level: int = 1):
         self.output_type = output_type
         self.level = level
 
@@ -62,34 +62,6 @@ class TutorialPrinter:
         html = self._link(url, target, text)
         return self._build_msg(html)
 
-    def info_rest_operation(self, method, res, url):
-        id = getattr(res, 'id', None)
-        name = getattr(res, 'name', None)
-
-        if self.level < 2:
-            if method == "POST":
-                method = "Created"
-            if method == "GET":
-                method = "Retrieved"
-
-        out = f"{method} <b><font color='blue'><code>{res.__class__.__name__}</code></font></b>"
-        if name:
-            # out += f" \"<font color='cadetblue'>{name}</font>\""
-            out += f" \"<i>{name}</i>\""
-        if id:
-            out += f" with id "
-            id_h = f"<code>{id}</code>"
-
-            dash_url = self.tutorial_helper.get_dashboard_url(res)
-            if dash_url:
-                out += self._link(dash_url,
-                                  target='dashboard',
-                                  text=id_h)
-            else:
-                out += id_h
-
-        return self._build_msg(msg=out, bold=False)
-
     def section(self, msg):
         if self.output_type == "IPython":
             display(HTML("<hr></hr>"))
@@ -106,6 +78,10 @@ class TutorialPrinter:
 
         return self._build_msg(msg, color='gray', bold=True)
 
+    def hbox(self, cols):
+        widget_cols = [widgets.Text(c) for c in cols]
+        hbox = widgets.HBox(widget_cols)
+        self._output(hbox)
 
 class StringTemplate(object):
     class FormatDict(dict):

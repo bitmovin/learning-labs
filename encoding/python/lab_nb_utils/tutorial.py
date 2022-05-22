@@ -1,10 +1,13 @@
+import json
+
 import config
 from re import split
 import uuid
 import bitmovin_api_sdk as bm
 import boto3
 
-import nprint
+from tutorial_printer import TutorialPrinter
+from tutorial_logger import TutorialApiLogger
 
 
 class TutorialHelper:
@@ -14,10 +17,11 @@ class TutorialHelper:
         self.api: bm.BitmovinApi = None
         self.user = None
         self.org = None
+        self.api_logger = TutorialApiLogger()
 
-        self.printer = nprint.TutorialPrinter(output_type=printer, tutorial_helper=self)
+        self.printer = TutorialPrinter(output_type=printer)
 
-        bm.ApiClient.request = nprint_patch(bm.ApiClient.request, self.printer)
+        bm.ApiClient.request = self.nprint_patch(bm.ApiClient.request)
 
     def _reload_config(self):
         module = globals().get('config', None)
@@ -165,37 +169,80 @@ class TutorialHelper:
         url = self.get_dashboard_url(resource)
         self.printer.link(url, target='dashboard')
 
+    def nprint_patch(self, original_func):
+        """ Monkey path for the API client, to output details of any created resource """
+
+        def wrapper(inner_self, method, relative_url, payload=None, raw_response=False, query_params=None, **kwargs):
+            # run original function
+            res = original_func(inner_self, method, relative_url, payload, raw_response, query_params, **kwargs)
+
+            if not relative_url.startswith("/account"):
+                if res.__class__.__name__ not in ['BitmovinResponse']:
+                    self.log_rest_operation(method, res, relative_url)
+
+            # return results of the original function
+            return res
+
+        return wrapper
+
+    def log_rest_operation(self, method, res, url):
+        id = getattr(res, 'id', None)
+        name = getattr(res, 'name', None)
+
+        if method == "POST":
+            method = "Created"
+        if method == "GET":
+            method = "Retrieved"
+
+        out = f"{method} <b><font color='blue'><code>{res.__class__.__name__}</code></font></b>"
+        if name:
+            # out += f" \"<font color='cadetblue'>{name}</font>\""
+            out += f" \"<i>{name}</i>\""
+        if id:
+            out += f" with id "
+            id_h = f"<code>{id}</code>"
+
+            dash_url = self.get_dashboard_url(res)
+            if dash_url:
+                out += self.printer._link(dash_url,
+                                          target='dashboard',
+                                          text=id_h)
+            else:
+                out += id_h
+
+        self.printer.text(msg=out, bold=False)
+
+        try:
+            if self.api_logger.last_method:
+                self.printer.text("{} {}".format(self.api_logger.last_method,
+                                                 self.api_logger.last_url))
+            request_payload = None
+            if self.api_logger.last_payload:
+                j = json.loads(self.api_logger.last_payload)
+                request_payload = json.dumps(j, indent=2)
+
+            response_payload = None
+            if self.api_logger.last_response:
+                j = json.loads(self.api_logger.last_response)
+                response_payload = json.dumps(j, indent=2)
+
+            if response_payload or response_payload:
+                self.printer.hbox([request_payload, response_payload])
+        except Exception as e:
+            pass
+
 
     @staticmethod
     def get_player_test_url(manifest_type, manifest_url):
         return f"https://bitmovin.com/demos/stream-test?" \
                f"format={manifest_type}&manifest={manifest_url}"
 
+
 def camelize(string):
     if not string.isalnum():
         return ''.join(a.capitalize() for a in split('([^a-zA-Z0-9])', string)
                        if a.isalnum())
     return string
-
-
-def nprint_patch(original_func, np: nprint.TutorialPrinter):
-    """ Monkey path for the API client, to output details of any created resource """
-
-    def wrapper(self, method, relative_url, payload=None, raw_response=False, query_params=None, **kwargs):
-        # run original function
-        res = original_func(self, method, relative_url, payload, raw_response, query_params, **kwargs)
-
-        if not relative_url.startswith("/account"):
-            if res.__class__.__name__ not in ['BitmovinResponse']:
-                np.info_rest_operation(method, res, relative_url)
-
-        # if not isinstance(self.rest_client.logger, bm.BitmovinApiLogger):
-        #     self.rest_client.logger.log('RESPONSE: {}'.format("DATA"), res)
-
-        # return results of the original function
-        return res
-
-    return wrapper
 
 
 helper = TutorialHelper()

@@ -1,5 +1,5 @@
 from unittest import TestCase
-import nprint
+import tutorial_printer
 
 class TestManifestBuilder(TestCase):
     def setUp(self) -> None:

@@ -6,7 +6,7 @@ import config as cfg
 import tutorial
 
 
-class TestTutorialHelper(TestCase):
+class TestTutorialValidator(TestCase):
     def setUp(self) -> None:
         self.tu = tutorial.TutorialHelper(printer="print")
 
@@ -18,7 +18,7 @@ class TestTutorialHelper(TestCase):
         cfg.API_KEY = ""
         with self.assertRaises(ValueError) as context:
             self.tu._validate_api_key()
-        self.assertIn("API_KEY is not set",
+        self.assertIn("not defined the API_KEY",
                       context.exception.args[0])
 
         cfg.API_KEY = "fsdfs"
@@ -65,7 +65,6 @@ class TestTutorialHelper(TestCase):
         cfg.ORG_ID = os.environ.get("BITMOVIN_ORG_ID")
         self.tu._validate_org_id()
 
-
     def test__validate_label(self):
         cfg.MY_LABEL = "bla di bla"
         l = self.tu._validate_label()
@@ -83,18 +82,15 @@ class TestTutorialHelper(TestCase):
         l = self.tu._validate_label()
         self.assertNotEqual(l, "")
 
-
     def test__validate_output(self):
         cfg.OUTPUT_ID = "0d40af80-4f66-40a6-87b0-ed33b590f4a2"
         with self.assertRaises(ValueError) as context:
             self.tu._validate_output()
         self.assertIn("invalid or is not a resource",
-                  context.exception.args[0])
+                      context.exception.args[0])
 
         cfg.API_KEY = os.environ.get("BITMOVIN_API_KEY")
         cfg.ORG_ID = os.environ.get("BITMOVIN_ORG_ID")
         self.tu._validate_org_id()
         cfg.OUTPUT_ID = "2974359b-dd11-4645-b3ec-593e4e877e8e"
         self.tu._validate_output()
-
-

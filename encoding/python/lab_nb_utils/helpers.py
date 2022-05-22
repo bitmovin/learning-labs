@@ -1,6 +1,6 @@
 import uuid
 import config
-import nprint
+import tutorial_printer
 
 
 def get_uuid():
