@@ -21,7 +21,7 @@ class TutorialHelper:
 
         self.printer = TutorialPrinter(output_type=printer)
 
-        # bm.ApiClient.request = self.nprint_patch(bm.ApiClient.request)
+        bm.ApiClient.request = self.nprint_patch(bm.ApiClient.request)
 
     def _reload_config(self):
         module = globals().get('config', None)
@@ -222,12 +222,16 @@ class TutorialHelper:
                     request_payload = json.dumps(j, indent=10)
                     operation += f"\n{request_payload}"
 
-                self.printer.codebox(operation, color="aliceblue")
+                self.printer.codebox(title='request',
+                                     body=operation,
+                                     color="aliceblue")
 
                 if self.api_logger.last_response:
                     j = json.loads(self.api_logger.last_response)
                     response_payload = json.dumps(j, indent=5)
-                    self.printer.codebox(response_payload, color="antiquewhite")
+                    self.printer.codebox(title='response',
+                                         body=response_payload,
+                                         color="antiquewhite")
 
         except Exception as e:
             self.printer.error(e)

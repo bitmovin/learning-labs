@@ -83,6 +83,7 @@ class TutorialPrinter:
             </div>
         </div>
         """)
+        return self._output(html)
 
     def section(self, msg):
         if self.output_type == "IPython":
