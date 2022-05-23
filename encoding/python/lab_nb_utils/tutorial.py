@@ -228,7 +228,6 @@ class TutorialHelper:
             def button_eventhandler(obj):
                 output.clear_output()
                 with output:
-                    display.display(widgets.HTML('Hello from the {} button!'.format(obj.description)))
                     self.printer.rest_representation(
                         id=rest_id,
                         method=self.api_logger.last_method,
