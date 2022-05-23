@@ -1,3 +1,3 @@
-bitmovin-api-sdk==1.115.0
+bitmovin-api-sdk
 boto3==1.23.5
 -e .
