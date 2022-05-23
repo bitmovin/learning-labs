@@ -214,7 +214,7 @@ class TutorialHelper:
             else:
                 out += id_h
 
-        self.printer.text(msg=out, bold=False)
+        out_html = widgets.HTML(out)
 
         if self.api_logger.last_method:
             rest_id = abs(hash(self.api_logger.last_url
@@ -239,8 +239,11 @@ class TutorialHelper:
 
             btn.on_click(button_eventhandler)
 
-            display.display(btn)
+            display.display(widgets.HBox([out_html, btn]))
             display.display(output)
+
+        else:
+            display.display(out_html)
 
         # try:
         #     if self.api_logger.last_method:
