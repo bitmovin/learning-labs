@@ -216,11 +216,9 @@ class TutorialHelper:
                                    + (self.api_logger.last_payload or "")
                                    + (self.api_logger.last_response or ""))) \
                           % (10 ** 8)
-                out += f"""
-                    <button 
-                        onclick='var x = document.getElementById("{rest_id}"); 
-                                 x.style.display === "none" ? x.style.display="block" : x.style.display = "none";'>
-                      {rest_id}</button>"""
+                js = f'var x=document.getElementById("{rest_id}"); x.style.display === "none" ' \
+                     f'? x.style.display="block" : x.style.display="none";'
+                out += f"""<button onclick='{js}'>{rest_id}</button>"""
 
         self.printer.text(msg=out, bold=False)
 
