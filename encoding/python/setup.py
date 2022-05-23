@@ -6,7 +6,8 @@ setup(
     packages=['lab_nb_utils'],
     install_requires=[
         'bitmovin-api-sdk',
-        'boto3==1.12.1'   # OLD version to ensure compatibility of urllib3 with the one used by bitmovin-api-sdk
+        'boto3==1.12.1',   # OLD version to ensure compatibility of urllib3 with the one used by bitmovin-api-sdk
+        'Pygments'
     ],
     url='',
     license='',

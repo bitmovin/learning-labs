@@ -3,6 +3,10 @@ import string
 
 from IPython.display import Markdown, display, HTML, IFrame
 
+from pygments import highlight
+from pygments.lexers import JsonLexer
+from pygments.formatters import HtmlFormatter
+
 
 class TutorialPrinter:
 
@@ -97,6 +101,11 @@ class TutorialPrinter:
         if request:
             request = json.loads(request)
             request_payload = json.dumps(request, indent=4)
+
+            request_payload = highlight(
+                request_payload, JsonLexer(),
+                HtmlFormatter(noclasses=True, linenos='table', nobackground=True, style='trac'))
+
             req += f"\n{request_payload}"
         req_h = self._codebox(title='request',
                               body=req,
@@ -105,7 +114,12 @@ class TutorialPrinter:
         if response:
             response = json.loads(response)
             response_payload = json.dumps(response, indent=4)
-            res = f"\n{response_payload}"
+
+            response_payload = highlight(
+                response_payload, JsonLexer(),
+                HtmlFormatter(noclasses=True, linenos='table', nobackground=True, style='trac'))
+
+            res = f"{response_payload}"
             res_h = self._codebox(title='response',
                                   body=res,
                                   color="aliceblue")
