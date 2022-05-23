@@ -1,4 +1,0 @@
-bitmovin-api-sdk
-# OLD version of boto3 to ensure compatibility of urllib3 with bitmovin-api-sdk
-boto3==1.12.1
--e .
