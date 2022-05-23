@@ -90,7 +90,8 @@ class TutorialPrinter:
         html = self._codebox(title, body, color)
         return self._output(HTML(html))
 
-    def rest_representation(self, method, url, request=None, response=None):
+    def rest_representation(self, id, method, url, request=None, response=None):
+
         req = f"<b>{method}</b> {url}"
         if request:
             request = json.loads(request)
@@ -109,7 +110,7 @@ class TutorialPrinter:
                                   color="aliceblue")
 
         html = HTML(f"""
-            <div class='wrapper' style='margin-left: 20px'>
+            <div id='{id}' class='wrapper' style='margin-left: 20px'>
                 {req_h}
                 {res_h}
             </div>

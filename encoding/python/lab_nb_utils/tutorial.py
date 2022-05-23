@@ -188,6 +188,7 @@ class TutorialHelper:
     def log_rest_operation(self, method, res, url):
         id = getattr(res, 'id', None)
         name = getattr(res, 'name', None)
+        rest_id = None
 
         if method == "POST":
             method = "Created"
@@ -210,11 +211,28 @@ class TutorialHelper:
             else:
                 out += id_h
 
+            if self.api_logger.last_method:
+                rest_id = abs(hash(self.api_logger.last_url
+                                   + (self.api_logger.last_payload or "")
+                                   + (self.api_logger.last_response or ""))) \
+                          % (10 ** 8)
+                out += f"""
+                    <button 
+                        onclick='var x = document.getElementById("{rest_id}"); 
+                                 x.style.display === "none" ? x.style.display="block" : x.style.display = "none";'>
+                      {rest_id}</button>"""
+
         self.printer.text(msg=out, bold=False)
 
         try:
             if self.api_logger.last_method:
+                rest_id = abs(hash(self.api_logger.last_url
+                              + (self.api_logger.last_payload or "")
+                              + (self.api_logger.last_response or ""))) \
+                     % (10 ** 8)
+
                 self.printer.rest_representation(
+                    id=rest_id,
                     method=self.api_logger.last_method,
                     url=self.api_logger.last_url,
                     request=self.api_logger.last_payload,
