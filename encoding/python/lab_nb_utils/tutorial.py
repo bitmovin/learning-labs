@@ -224,27 +224,23 @@ class TutorialHelper:
 
             btn = widgets.Button(description='🔍',
                                  layout=widgets.Layout(width='30px', padding='0px', margin="2px 0px 0px 10px"))
-            btn_close = widgets.Button(description='close',
-                                       layout=widgets.Layout(width='40px', padding='0px', margin="2px 0px 0px 10px"))
             output = widgets.Output()
 
-            def button_eventhandler_show(obj):
+            def button_eventhandler(obj):
                 output.clear_output()
-                with output:
-                    display.display(btn_close)
-                    self.printer.rest_representation(
-                        id=rest_id,
-                        method=self.api_logger.last_method,
-                        url=self.api_logger.last_url,
-                        request=self.api_logger.last_payload,
-                        response=self.api_logger.last_response
-                    )
+                if obj.description == '❌':
+                    obj.description = '🔍'
+                else:
+                    with output:
+                        self.printer.rest_representation(
+                            id=rest_id,
+                            method=self.api_logger.last_method,
+                            url=self.api_logger.last_url,
+                            request=self.api_logger.last_payload,
+                            response=self.api_logger.last_response
+                        )
 
-            def button_eventhandler_close(obj):
-                output.clear_output()
-
-            btn.on_click(button_eventhandler_show)
-            btn_close.on_click(button_eventhandler_close())
+            btn.on_click(button_eventhandler)
 
             display.display(widgets.HBox([out_html, btn]))
             display.display(output)
