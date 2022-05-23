@@ -207,7 +207,7 @@ class TutorialHelper:
         if method == "GET":
             method = "Retrieved"
 
-        out = f"{method} <b><font color='blue'><code>{res.__class__.__name__}</code></font></b>"
+        out = f"{method} <b><font color='blue' style='font-size: 110%'><code>{res.__class__.__name__}</code></font></b>"
         if name:
             out += f" <font color='#a31515'>\"{name}\"</font>"
             # out += f" \"{name}\""
