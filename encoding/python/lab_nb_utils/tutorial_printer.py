@@ -104,7 +104,7 @@ class TutorialPrinter:
 
             request_payload = highlight(
                 request_payload, JsonLexer(),
-                HtmlFormatter(noclasses=True, linenos='inline', nobackground=True, style='trac'))
+                HtmlFormatter(noclasses=True, linenos=False, nobackground=True, style='trac'))
 
             req += f"\n{request_payload}"
         req_h = self._codebox(title='request',
@@ -117,7 +117,7 @@ class TutorialPrinter:
 
             response_payload = highlight(
                 response_payload, JsonLexer(),
-                HtmlFormatter(noclasses=True, linenos='inline', nobackground=True, style='trac'))
+                HtmlFormatter(noclasses=True, linenos=False, nobackground=True, style='trac'))
 
             res = f"{response_payload}"
             res_h = self._codebox(title='response',
