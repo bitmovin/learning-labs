@@ -1,5 +1,8 @@
 import json
 
+from IPython import display
+from ipywidgets import widgets
+
 import config
 from re import split
 import uuid
@@ -211,35 +214,40 @@ class TutorialHelper:
             else:
                 out += id_h
 
-            if self.api_logger.last_method:
-                rest_id = abs(hash(self.api_logger.last_url
-                                   + (self.api_logger.last_payload or "")
-                                   + (self.api_logger.last_response or ""))) \
-                          % (10 ** 8)
-                js = f'var x=document.getElementById("{rest_id}"); x.style.display === "none" ' \
-                     f'? x.style.display="block" : x.style.display="none";'
-                out += f"""<button onclick='{js}'>{rest_id}</button>"""
-
         self.printer.text(msg=out, bold=False)
 
-        try:
-            if self.api_logger.last_method:
-                rest_id = abs(hash(self.api_logger.last_url
-                              + (self.api_logger.last_payload or "")
-                              + (self.api_logger.last_response or ""))) \
-                     % (10 ** 8)
+        if self.api_logger.last_method:
+            rest_id = abs(hash(self.api_logger.last_url
+                               + (self.api_logger.last_payload or "")
+                               + (self.api_logger.last_response or ""))) \
+                      % (10 ** 8)
 
-                self.printer.rest_representation(
-                    id=rest_id,
-                    method=self.api_logger.last_method,
-                    url=self.api_logger.last_url,
-                    request=self.api_logger.last_payload,
-                    response=self.api_logger.last_response
-                )
+            btn = widgets.Button(description='Widget')
+            output = widgets.Output()
 
-        except Exception as e:
-            self.printer.error(e)
-            # pass
+            def button_eventhandler(obj):
+                output.clear_output()
+                with output:
+                    display.display(widgets.HTML('Hello from the {} button!'.format(obj.description)))
+                    self.printer.rest_representation(
+                        id=rest_id,
+                        method=self.api_logger.last_method,
+                        url=self.api_logger.last_url,
+                        request=self.api_logger.last_payload,
+                        response=self.api_logger.last_response
+                    )
+
+            btn.on_click(button_eventhandler)
+
+            display.display(btn)
+            display.display(output)
+
+        # try:
+        #     if self.api_logger.last_method:
+        #
+        # except Exception as e:
+        #     self.printer.error(e)
+        #     # pass
 
     @staticmethod
     def get_player_test_url(manifest_type, manifest_url):
