@@ -1,9 +1,7 @@
 import json
 import string
 
-import IPython.display
 from IPython.display import Markdown, display, HTML, IFrame
-from ipywidgets import widgets
 
 
 class TutorialPrinter:

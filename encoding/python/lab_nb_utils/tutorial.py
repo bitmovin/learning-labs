@@ -3,14 +3,14 @@ import json
 from IPython import display
 from ipywidgets import widgets
 
-import config
 from re import split
 import uuid
 import bitmovin_api_sdk as bm
 import boto3
 
-from tutorial_printer import TutorialPrinter
-from tutorial_logger import TutorialApiLogger
+import lab_nb_utils.config as config
+from lab_nb_utils.tutorial_printer import TutorialPrinter
+from lab_nb_utils.tutorial_logger import TutorialApiLogger
 
 
 class TutorialHelper:

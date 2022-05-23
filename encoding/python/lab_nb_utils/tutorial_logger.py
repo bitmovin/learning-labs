@@ -1,6 +1,3 @@
-import logging
-import sys
-
 from bitmovin_api_sdk.common.bitmovin_api_logger_base import BitmovinApiLoggerBase
 
 
