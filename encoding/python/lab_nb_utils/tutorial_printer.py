@@ -76,7 +76,7 @@ class TutorialPrinter:
         html = f"""
         <div class="boxwrapper" style="background-color:{color}; padding: 10px">
             <div id="container" style="border:1px solid black; position:relative; border-radius:4px;
-                                       padding: 20px 10px 10px 10px;">
+                                       padding: 13px 10px 10px 10px;">
                 <div id="label" style="position:absolute; top:-12px; left:20px; padding:2px 5px 2px 5px;
 	                                   background-color:{color}; border:0px solid grey; border-radius:4px;
                                        font-variant: small-caps;">{title}</div>
@@ -90,7 +90,7 @@ class TutorialPrinter:
         html = self._codebox(title, body, color)
         return self._output(HTML(html))
 
-    def rest_representation(self, id, method, url, request=None, response=None):
+    def rest_representation(self, method, url, request=None, response=None):
 
         req = f"<b>{method}</b> {url}"
         if request:
@@ -110,7 +110,7 @@ class TutorialPrinter:
                                   color="aliceblue")
 
         html = HTML(f"""
-            <div id='{id}' class='wrapper' style='margin-left: 20px'>
+            <div class='wrapper' style='margin-left: 20px'>
                 {req_h}
                 {res_h}
             </div>

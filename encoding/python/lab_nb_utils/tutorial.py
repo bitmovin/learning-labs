@@ -217,14 +217,14 @@ class TutorialHelper:
         out_html = widgets.HTML(out)
 
         if self.api_logger.last_method:
-            rest_id = abs(hash(self.api_logger.last_url
-                               + (self.api_logger.last_payload or "")
-                               + (self.api_logger.last_response or ""))) \
-                      % (10 ** 8)
-
             btn = widgets.Button(description='🔍',
                                  layout=widgets.Layout(width='30px', padding='0px', margin="2px 0px 0px 10px"))
             output = widgets.Output()
+
+            m = self.api_logger.last_method
+            u = self.api_logger.last_url
+            p = self.api_logger.last_payload
+            r = self.api_logger.last_response
 
             def button_eventhandler(obj):
                 output.clear_output()
@@ -232,13 +232,7 @@ class TutorialHelper:
                     obj.description = '🔍'
                 else:
                     with output:
-                        self.printer.rest_representation(
-                            id=rest_id,
-                            method=self.api_logger.last_method,
-                            url=self.api_logger.last_url,
-                            request=self.api_logger.last_payload,
-                            response=self.api_logger.last_response
-                        )
+                        self.printer.rest_representation(method=m, url=u, request=p, response=r)
                     obj.description = '❌'
 
             btn.on_click(button_eventhandler)
