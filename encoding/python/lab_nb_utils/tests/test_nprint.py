@@ -6,19 +6,19 @@ class TestManifestBuilder(TestCase):
         self.nprint = nprint.TutorialPrinter(output_type="print")
 
     def test_build_msg(self):
-        out = self.nprint._build_msg(msg="Hello")
+        out = self.nprint._build_string(msg="Hello")
         self.assertEqual(out, "Hello")
 
-        out = self.nprint._build_msg(msg="Hello {d}", vars=dict(d=9))
+        out = self.nprint._build_string(msg="Hello {d}", vars=dict(d=9))
         self.assertEqual(out, "Hello 9")
 
-        out = self.nprint._build_msg(msg="Hello {d} {r}", vars=dict(d=9))
+        out = self.nprint._build_string(msg="Hello {d} {r}", vars=dict(d=9))
         self.assertEqual(out, "Hello 9 {r}")
 
-        out = self.nprint._build_msg(msg="Hello {d} {r}", vars=dict(d=9, r="aa"))
+        out = self.nprint._build_string(msg="Hello {d} {r}", vars=dict(d=9, r="aa"))
         self.assertEqual(out, "Hello 9 aa")
 
-        out = self.nprint._build_msg(msg="Hello {d} {r}", vars=dict(d=9), codevars=dict(r="yyu"))
+        out = self.nprint._build_string(msg="Hello {d} {r}", vars=dict(d=9), codevars=dict(r="yyu"))
         self.assertEqual(out, "Hello 9 <code>yyu</code>")
 
 

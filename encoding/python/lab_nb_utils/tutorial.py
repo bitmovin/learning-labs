@@ -160,6 +160,14 @@ class TutorialHelper:
             url = f"inputs/{resource.id}"
         if isinstance(resource, bm.Output):
             url = f"outputs/{resource.id}"
+        if isinstance(resource, bm.CodecConfiguration):
+            url = f"codec-configurations/{resource.id}"
+        if isinstance(resource, bm.Filter):
+            url = f"filters/{resource.id}"
+        if isinstance(resource, bm.HlsManifest):
+            url = f"manifests/hls/{resource.id}"
+        if isinstance(resource, bm.DashManifest):
+            url = f"manifests/dash/{resource.id}"
 
         params = f"apiKey={config.API_KEY}"
         if config.ORG_ID:
@@ -191,7 +199,8 @@ class TutorialHelper:
     def log_rest_operation(self, method, res, url):
         id = getattr(res, 'id', None)
         name = getattr(res, 'name', None)
-        rest_id = None
+
+        # Main message
 
         if method == "POST":
             method = "Created"
@@ -216,6 +225,8 @@ class TutorialHelper:
 
         out_html = widgets.HTML(out)
 
+        # REST representation
+
         if self.api_logger.last_method:
             btn = widgets.Button(description='🔍',
                                  layout=widgets.Layout(width='30px', padding='0px', margin="2px 0px 0px 10px"))
@@ -228,12 +239,12 @@ class TutorialHelper:
 
             def button_eventhandler(obj):
                 output.clear_output()
-                if obj.description == '❌':
+                if obj.description == '╳':
                     obj.description = '🔍'
                 else:
                     with output:
                         self.printer.rest_representation(method=m, url=u, request=p, response=r)
-                    obj.description = '❌'
+                    obj.description = '╳'
 
             btn.on_click(button_eventhandler)
 
@@ -242,13 +253,6 @@ class TutorialHelper:
 
         else:
             display.display(out_html)
-
-        # try:
-        #     if self.api_logger.last_method:
-        #
-        # except Exception as e:
-        #     self.printer.error(e)
-        #     # pass
 
     @staticmethod
     def get_player_test_url(manifest_type, manifest_url):

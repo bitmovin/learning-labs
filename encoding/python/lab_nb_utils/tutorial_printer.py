@@ -2,7 +2,7 @@ import json
 import string
 
 import IPython.display
-from IPython.display import Markdown, display, HTML
+from IPython.display import Markdown, display, HTML, IFrame
 from ipywidgets import widgets
 
 
@@ -22,7 +22,7 @@ class TutorialPrinter:
             print(msg)
             return msg
 
-    def _build_msg(self, msg, vars: dict = None, codevars: dict = None, highvars: dict = None, color=None, bold=False):
+    def _build_string(self, msg, vars: dict = None, codevars: dict = None, highvars: dict = None, color=None, bold=False):
         sts = StringTemplate(msg)
         if vars:
             sts.format(**vars)
@@ -43,22 +43,22 @@ class TutorialPrinter:
         return self._output(out)
 
     def text(self, msg, **kwargs):
-        return self._build_msg(msg, color=None, **kwargs)
+        return self._build_string(msg, color=None, **kwargs)
 
     def info(self, msg, **kwargs):
-        return self._build_msg(msg, color='blue', **kwargs)
+        return self._build_string(msg, color='blue', **kwargs)
 
     def ok(self, msg, **kwargs):
-        return self._build_msg(msg, color='green', **kwargs)
+        return self._build_string(msg, color='green', **kwargs)
 
     def error(self, msg, **kwargs):
-        return self._build_msg(msg, color='red', **kwargs)
+        return self._build_string(msg, color='red', **kwargs)
 
     def warning(self, msg, **kwargs):
-        return self._build_msg(msg, color='orange', **kwargs)
+        return self._build_string(msg, color='orange', **kwargs)
 
     def debug(self, msg, **kwargs):
-        return self._build_msg(msg, color='gray', **kwargs)
+        return self._build_string(msg, color='gray', **kwargs)
 
     def _link(self, url, target="_new", text=None):
         html = f"<a href='{url}' target='{target}'>{text or url}</a>"
@@ -66,7 +66,7 @@ class TutorialPrinter:
 
     def link(self, url, target="_new", text=None):
         html = self._link(url, target, text)
-        return self._build_msg(html)
+        return self._build_string(html)
 
     def codeblock(self, payload, color='transparent'):
         html = HTML(f"<pre style='font-size: 85%; background-color: {color}'>{payload}</pre>")
@@ -89,6 +89,9 @@ class TutorialPrinter:
     def codebox(self, title, body, color='transparent'):
         html = self._codebox(title, body, color)
         return self._output(HTML(html))
+
+    def iframe(self, url, width=800, height=450):
+        return self._output(IFrame(src=url, width=width, height=height))
 
     def rest_representation(self, method, url, request=None, response=None):
 
@@ -123,7 +126,7 @@ class TutorialPrinter:
         if self.output_type == "print":
             print("================")
 
-        return self._build_msg(msg, color='gray', bold=True)
+        return self._build_string(msg, color='gray', bold=True)
 
     def subsection(self, msg):
         if self.output_type == "IPython":
@@ -131,7 +134,7 @@ class TutorialPrinter:
         if self.output_type == "print":
             print("------------")
 
-        return self._build_msg(msg, color='gray', bold=True)
+        return self._build_string(msg, color='gray', bold=True)
 
 
 class StringTemplate(object):
