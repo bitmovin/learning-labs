@@ -3,8 +3,8 @@ from setuptools import setup
 setup(
     name='encoding-learning-labs',
     version='0.3',
-    packages=['tests'],
-    package_dir={'': 'encoding/python/lab_nb_utils'},
+    packages=['lab_nb_utils'],
+    # package_dir={'': 'lab_nb_utils'},
     url='',
     license='',
     author='fabre.lambeau',
