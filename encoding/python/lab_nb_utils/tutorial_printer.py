@@ -93,6 +93,7 @@ class TutorialPrinter:
     def rest_representation(self, method, url, request=None, response=None):
         req = f"<b>{method}</b> {url}"
         if request:
+            request = json.loads(request)
             request_payload = json.dumps(request, indent=4)
             req += f"\n{request_payload}"
         req_h = self._codebox(title='request',
@@ -100,6 +101,7 @@ class TutorialPrinter:
                               color="aliceblue")
         res_h = ""
         if response:
+            response = json.loads(response)
             response_payload = json.dumps(response, indent=4)
             res = f"\n{response_payload}"
             res_h = self._codebox(title='response',
