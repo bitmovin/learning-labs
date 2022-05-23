@@ -239,6 +239,7 @@ class TutorialHelper:
                             request=self.api_logger.last_payload,
                             response=self.api_logger.last_response
                         )
+                    obj.description = '❌'
 
             btn.on_click(button_eventhandler)
 
