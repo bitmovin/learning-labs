@@ -200,8 +200,8 @@ class TutorialHelper:
 
         out = f"{method} <b><font color='blue'><code>{res.__class__.__name__}</code></font></b>"
         if name:
-            # out += f" \"<font color='cadetblue'>{name}</font>\""
-            out += f" \"{name}\""
+            out += f" <font color='#a31515'>\"{name}\"</font>"
+            # out += f" \"{name}\""
         if id:
             out += f" with id "
             id_h = f"<code>{id}</code>"
@@ -222,12 +222,16 @@ class TutorialHelper:
                                + (self.api_logger.last_response or ""))) \
                       % (10 ** 8)
 
-            btn = widgets.Button(description='Widget')
+            btn = widgets.Button(description='🔍',
+                                 layout=widgets.Layout(width='30px', padding='0px', margin="2px 0px 0px 10px"))
+            btn_close = widgets.Button(description='close',
+                                       layout=widgets.Layout(width='40px', padding='0px', margin="2px 0px 0px 10px"))
             output = widgets.Output()
 
-            def button_eventhandler(obj):
+            def button_eventhandler_show(obj):
                 output.clear_output()
                 with output:
+                    display.display(btn_close)
                     self.printer.rest_representation(
                         id=rest_id,
                         method=self.api_logger.last_method,
@@ -236,7 +240,11 @@ class TutorialHelper:
                         response=self.api_logger.last_response
                     )
 
-            btn.on_click(button_eventhandler)
+            def button_eventhandler_close(obj):
+                output.clear_output()
+
+            btn.on_click(button_eventhandler_show)
+            btn_close.on_click(button_eventhandler_close())
 
             display.display(widgets.HBox([out_html, btn]))
             display.display(output)
