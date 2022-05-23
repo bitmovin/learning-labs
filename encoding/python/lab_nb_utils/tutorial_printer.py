@@ -73,7 +73,7 @@ class TutorialPrinter:
         return self._output(html)
 
     def _codebox(self, title, body, color='transparent'):
-        html = HTML(f"""
+        html = f"""
         <div class="boxwrapper" style="background-color:{color}; padding: 10px">
             <div id="container" style="border:1px solid black; position:relative; border-radius:4px;
                                        padding: 20px 10px 10px 10px;">
@@ -83,12 +83,12 @@ class TutorialPrinter:
                 <pre style='font-size: 85%;'>{body}</pre>
             </div>
         </div>
-        """)
+        """
         return html
 
     def codebox(self, title, body, color='transparent'):
         html = self._codebox(title, body, color)
-        return self._output(html)
+        return self._output(HTML(html))
 
     def rest_representation(self, method, url, request=None, response=None):
         req = f"<b>{method}</b> {url}"
