@@ -88,7 +88,8 @@ class TutorialHelper:
         except ValueError:
             raise ValueError("The ORG_ID should be a UUID")
 
-        self.api = bm.BitmovinApi(api_key=config.API_KEY)
+        self.api = bm.BitmovinApi(api_key=config.API_KEY,
+                                  tenant_org_id=config.ORG_ID)
         try:
             self.org = self.api.account.organizations.get(organization_id=config.ORG_ID)
             self.printer.info("You are working with resources in the organization named {org}",
