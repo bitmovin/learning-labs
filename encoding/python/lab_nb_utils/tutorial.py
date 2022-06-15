@@ -6,7 +6,7 @@ import boto3
 import requests
 import lxml.etree as etree
 
-from IPython import display
+from IPython import display, get_ipython
 from ipywidgets import widgets
 
 import lab_nb_utils.config as config
@@ -364,12 +364,12 @@ class TutorialHelper:
             output = widgets.Output()
 
             def on_change(change):
+
                 if change['type'] == 'change' and change['name'] == 'value':
                     output.clear_output()
 
-                    if change['new'].startswith("http"):
-                        with output:
-                            self.mediainfo_url(change['new'])
+                    with output:
+                        self.mediainfo_url(change['new'], baseurl=baseurl)
 
             w.observe(on_change)
             display.display(w)
