@@ -26,6 +26,10 @@ class TutorialHelper:
 
         bm.ApiClient.request = self.nprint_patch(bm.ApiClient.request)
 
+        if not os.path.exists("/usr/bin/mediainfo"):
+            print("Installing MediaInfo")
+            get_ipython().system_raw("apt-get install mediainfo")
+
     def _reload_config(self):
         module = globals().get('config', None)
         if module:
@@ -284,11 +288,6 @@ class TutorialHelper:
 
     @staticmethod
     def mediainfo(path):
-        if not os.path.exists("/usr/bin/mediainfo"):
-            get_ipython().system_raw("apt-get install mediainfo")
-
-        display.display(display.HTML("<br>"))
-        display.display(display.HTML("<br>"))
         get_ipython().system_raw("""mediainfo --LogFile="/root/.nfo" "$path" """)
         with open('/root/.nfo', 'r') as file:
             media = file.read()
