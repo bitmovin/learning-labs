@@ -203,21 +203,13 @@ class TutorialHelper:
 
         return wrapper
 
-    def log_rest_operation(self, method, res, url):
+    def _resource(self, res):
         id = getattr(res, 'id', None)
         name = getattr(res, 'name', None)
 
-        # Main message
-
-        if method == "POST":
-            method = "Created"
-        if method == "GET":
-            method = "Retrieved"
-
-        out = f"{method} <b><font color='blue' style='font-size: 110%'><code>{res.__class__.__name__}</code></font></b>"
+        out = f"<b><font color='blue' style='font-size: 110%'><code>{res.__class__.__name__}</code></font></b>"
         if name:
             out += f" <font color='#a31515'>\"{name}\"</font>"
-            # out += f" \"{name}\""
         if id:
             out += f" with id "
             id_h = f"<code>{id}</code>"
@@ -229,6 +221,21 @@ class TutorialHelper:
                                           text=id_h)
             else:
                 out += id_h
+        return out
+
+    def info_resource(self, res):
+        out = self._resource(res)
+        out_html = widgets.HTML(out)
+        display.display(out_html)
+
+    def log_rest_operation(self, method, res, url):
+        if method == "POST":
+            method = "Created"
+        if method == "GET":
+            method = "Retrieved"
+
+        out = f"{method} "
+        out += self._resource(res)
 
         out_html = widgets.HTML(out)
 
@@ -272,7 +279,7 @@ class TutorialHelper:
             else:
                 filetype = "text"
 
-        self.printer.info(url)
+        # self.printer.info(url)
         file = requests.get(url).content
 
         if filetype in ["mpd", "xml"]:
