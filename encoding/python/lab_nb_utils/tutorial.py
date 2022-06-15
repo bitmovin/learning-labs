@@ -1,12 +1,11 @@
-from IPython import display
-from ipywidgets import widgets
-import time
 import os
-
 from re import split
 import uuid
 import bitmovin_api_sdk as bm
 import boto3
+
+from IPython import display
+from ipywidgets import widgets
 
 import lab_nb_utils.config as config
 from lab_nb_utils.tutorial_printer import TutorialPrinter
@@ -293,9 +292,10 @@ class TutorialHelper:
         get_ipython().system_raw("""mediainfo --LogFile="/root/.nfo" "$path" """)
         with open('/root/.nfo', 'r') as file:
             media = file.read()
-            media = media.replace(os.path.dirname(path)+"/", "")
+            media = media.replace(os.path.dirname(path) + "/", "")
         print(media)
-        get_ipython().system_raw("rm -f '/root/.nfo'")                        
+        get_ipython().system_raw("rm -f '/root/.nfo'")
+
 
 def camelize(string):
     if not string.isalnum():
