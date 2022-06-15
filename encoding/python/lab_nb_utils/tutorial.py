@@ -318,13 +318,12 @@ class TutorialHelper:
         return f"https://bitmovin.com/demos/stream-test?" \
                f"format={manifest_type}&manifest={manifest_url}"
 
-    @staticmethod
-    def mediainfo(path):
+    def mediainfo(self, path):
         get_ipython().system_raw("""mediainfo --LogFile="/root/.nfo" "$path" """)
         with open('/root/.nfo', 'r') as file:
             media = file.read()
             media = media.replace(os.path.dirname(path) + "/", "")
-        print(media)
+        self.printer.codebox(title="", body=media, color="lightgray")
         get_ipython().system_raw("rm -f '/root/.nfo'")
 
 
