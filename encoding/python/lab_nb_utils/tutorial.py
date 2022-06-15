@@ -21,6 +21,7 @@ class TutorialHelper:
         self.user = None
         self.org = None
         self.api_logger = TutorialApiLogger()
+        self._output_path = None
 
         self.printer = TutorialPrinter(output_type=printer)
 
@@ -46,9 +47,8 @@ class TutorialHelper:
                 self._validate_output()
             self._validate_label()
 
-            output_path = self.output_path
             self.printer.info("Your output files will be written into folder {path}",
-                              highvars=dict(path=output_path))
+                              highvars=dict(path=self.output_path))
 
             self.printer.ok("Your configuration appears complete. You are good to go!")
         except Exception as e:
@@ -148,8 +148,9 @@ class TutorialHelper:
 
     @property
     def output_path(self):
-        output_path = f"outputs/{config.MY_LABEL}-{str(uuid.uuid4())[:8]}"
-        return output_path
+        if not self._output_path:
+            self._output_path = f"outputs/{config.MY_LABEL}-{str(uuid.uuid4())[:8]}"
+        return self._output_path
 
     @staticmethod
     def get_dashboard_url(resource):

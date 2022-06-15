@@ -3,7 +3,7 @@ from unittest import TestCase
 
 import bitmovin_api_sdk.encoding.encoding_api
 
-import config as cfg
+import lab_nb_utils.config as cfg
 import tutorial
 # from tutorial import nprint_patch
 import bitmovin_api_sdk as bm
@@ -44,3 +44,17 @@ class TestTutorialHelper(TestCase):
         api = bm.BitmovinApi(api_key=os.environ.get("BITMOVIN_API_KEY"),
                              logger=bm.BitmovinApiLogger())
         api.encoding.encodings.list()
+
+    def test_output_path(self):
+        o1 = self.tu.output_path
+        o2 = self.tu.output_path
+        self.assertEqual(o1, o2)
+        self.assertTrue(o1.startswith("outputs/-"))
+
+    def test_output_path_with_label(self):
+        cfg.MY_LABEL = "bla"
+        self.tu._reload_config()
+        o1 = self.tu.output_path
+        o2 = self.tu.output_path
+        self.assertEqual(o1, o2)
+        self.assertTrue(o1.startswith("outputs/bla-"))
