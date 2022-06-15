@@ -255,6 +255,28 @@ class TutorialHelper:
         else:
             display.display(out_html)
 
+    def preview_player(self, dash=None, hls=None, license=None, sprite=None, poster=None):
+        if not (dash or hls):
+            raise Exception("You must provide at least one DASH or HLS URL")
+        if not license:
+            license = config.PLAYER_LICENSE
+        if not license:
+            raise Exception("You must provide a player license key")
+
+        embed_url = "https://demo.bitmovin.com/public/learning-labs/encoding/test-players/basic-dash-player.html?"
+        embed_url += "license=" + license
+        if dash:
+            embed_url += "&mpdurl=" + dash
+        if hls:
+            embed_url += "&hlsurl=" + hls
+        if sprite:
+            embed_url += "&spriteurl=" + sprite
+        if poster:
+            embed_url += "&posterurl=" + poster
+
+        self.printer.iframe(embed_url)
+        return embed_url
+
     @staticmethod
     def get_player_test_url(manifest_type, manifest_url):
         return f"https://bitmovin.com/demos/stream-test?" \
