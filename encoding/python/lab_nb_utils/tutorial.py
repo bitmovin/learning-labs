@@ -3,7 +3,7 @@ from re import split
 import uuid
 import bitmovin_api_sdk as bm
 import boto3
-import urllib
+import requests
 import lxml.etree as etree
 
 from IPython import display
@@ -273,22 +273,23 @@ class TutorialHelper:
                 filetype = "text"
 
         self.printer.info(url)
-        file = urllib.request.urlopen(url)
+        file = requests.get(url).content
 
         if filetype in ["mpd", "xml"]:
-            x = etree.parse(file)
+            x = etree.fromstring(file)
             pp = etree.tostring(x, pretty_print=True, encoding="unicode")
             pp = encodeXMLText(pp)
             self.printer.codebox(title="",
                                  body=pp)
 
         if filetype in ["text", "m3u8"]:
-            pp = file.read()
+            pp = file
+            pp = pp.decode("utf-8")
             self.printer.codebox(title="",
                                  body=pp)
 
         if filetype in ['image']:
-            self.printer.image(url)
+            self.printer.image(file)
 
     def preview_player(self, dash=None, hls=None, license=None, sprite=None, poster=None):
         if not (dash or hls):
