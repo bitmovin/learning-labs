@@ -261,7 +261,7 @@ class TutorialHelper:
         else:
             display.display(out_html)
 
-    def preview(self, url, filetype=None):
+    def preview_url(self, url, filetype=None):
         if not filetype:
             if url.endswith(".mpd"):
                 filetype = "mpd"
@@ -291,6 +291,29 @@ class TutorialHelper:
         if filetype in ['image']:
             self.printer.image(file)
 
+    def preview(self, urls):
+        if isinstance(urls, str):
+            self.preview_url(urls)
+        if isinstance(urls, dict):
+            w = widgets.Dropdown(
+                options=["-- choose a URL --"] + list(urls.values()),
+                layout={'width': 'initial'}
+            )
+
+            output = widgets.Output()
+
+            def on_change(change):
+                if change['type'] == 'change' and change['name'] == 'value':
+                    output.clear_output()
+
+                    if change['new'].startswith("http"):
+                        with output:
+                            self.preview_url(change['new'])
+
+            w.observe(on_change)
+            display.display(w)
+            display.display(output)
+
     def preview_player(self, dash=None, hls=None, license=None, sprite=None, poster=None):
         if not (dash or hls):
             raise Exception("You must provide at least one DASH or HLS URL")
@@ -318,14 +341,39 @@ class TutorialHelper:
         return f"https://bitmovin.com/demos/stream-test?" \
                f"format={manifest_type}&manifest={manifest_url}"
 
-    def mediainfo(self, path):
+    def mediainfo_url(self, url, baseurl=None):
+        path = url
+        if baseurl:
+            path = os.path.join(baseurl, path)
         get_ipython().system_raw("""mediainfo --LogFile="/root/.nfo" "$path" """)
         with open('/root/.nfo', 'r') as file:
             media = file.read()
-            media = media.replace(os.path.dirname(path) + "/", "")
+            media = media.replace(os.path.dirname(url) + "/", "")
         self.printer.codebox(title="", body=media, color="lightgray")
         get_ipython().system_raw("rm -f '/root/.nfo'")
 
+    def mediainfo(self, urls, baseurl=None):
+        if isinstance(urls, str):
+            self.mediainfo_url(urls, baseurl)
+        if isinstance(urls, dict):
+            w = widgets.Dropdown(
+                options=["-- choose a URL --"] + list(urls.values()),
+                layout={'width': 'initial'}
+            )
+
+            output = widgets.Output()
+
+            def on_change(change):
+                if change['type'] == 'change' and change['name'] == 'value':
+                    output.clear_output()
+
+                    if change['new'].startswith("http"):
+                        with output:
+                            self.mediainfo_url(change['new'])
+
+            w.observe(on_change)
+            display.display(w)
+            display.display(output)
 
 def camelize(string):
     if not string.isalnum():
