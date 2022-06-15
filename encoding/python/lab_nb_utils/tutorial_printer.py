@@ -1,7 +1,7 @@
 import json
 import string
 
-from IPython.display import Markdown, display, HTML, IFrame
+from IPython.display import Markdown, display, HTML, IFrame, Image
 
 from pygments import highlight
 from pygments.lexers import JsonLexer
@@ -78,7 +78,7 @@ class TutorialPrinter:
         html = f"""
         <div class="boxwrapper" style="background-color:{color}; padding: 10px">
             <div id="container" style="border:1px solid black; position:relative; border-radius:4px;
-                                       padding: 13px 10px 10px 10px;">
+                                       padding: 13px 10px 10px 10px; overflow: scroll;">
                 <div id="label" style="position:absolute; top:-12px; left:20px; padding:2px 5px 2px 5px;
 	                                   background-color:{color}; border:0px solid grey; border-radius:4px;
                                        font-variant: small-caps;">{title}</div>
@@ -94,6 +94,9 @@ class TutorialPrinter:
 
     def iframe(self, url, width=800, height=450):
         return self._output(IFrame(src=url, width=width, height=height))
+
+    def image(self, url):
+        return self._output(Image(filename=url))
 
     def rest_representation(self, method, url, request=None, response=None):
 

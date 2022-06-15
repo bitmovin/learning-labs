@@ -3,6 +3,8 @@ from re import split
 import uuid
 import bitmovin_api_sdk as bm
 import boto3
+import urllib
+import lxml.etree as etree
 
 from IPython import display
 from ipywidgets import widgets
@@ -259,6 +261,35 @@ class TutorialHelper:
         else:
             display.display(out_html)
 
+    def preview(self, url, filetype=None):
+        if not filetype:
+            if url.endswith(".mpd"):
+                filetype = "mpd"
+            elif url.endswith(".m3u8"):
+                filetype = "m3u8"
+            elif url.endswith(".jpg") or url.endswith(".png"):
+                filetype = "image"
+            else:
+                filetype = "text"
+
+        self.printer.info(url)
+        file = urllib.request.urlopen(url)
+
+        if filetype in ["mpd", "xml"]:
+            x = etree.parse(file)
+            pp = etree.tostring(x, pretty_print=True, encoding="unicode")
+            pp = encodeXMLText(pp)
+            self.printer.codebox(title="",
+                                 body=pp)
+
+        if filetype in ["text", "m3u8"]:
+            pp = file.read()
+            self.printer.codebox(title="",
+                                 body=pp)
+
+        if filetype in ['image']:
+            self.printer.image(url)
+
     def preview_player(self, dash=None, hls=None, license=None, sprite=None, poster=None):
         if not (dash or hls):
             raise Exception("You must provide at least one DASH or HLS URL")
@@ -301,6 +332,14 @@ def camelize(string):
         return ''.join(a.capitalize() for a in split('([^a-zA-Z0-9])', string)
                        if a.isalnum())
     return string
+
+def encodeXMLText(text):
+    text = text.replace("&", "&amp;")
+    text = text.replace("\"", "&quot;")
+    text = text.replace("'", "&apos;")
+    text = text.replace("<", "&lt;")
+    text = text.replace(">", "&gt;")
+    return text
 
 
 helper = TutorialHelper()
