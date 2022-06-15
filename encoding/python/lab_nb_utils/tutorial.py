@@ -1,7 +1,7 @@
-import json
-
 from IPython import display
 from ipywidgets import widgets
+import time
+import os
 
 from re import split
 import uuid
@@ -283,6 +283,19 @@ class TutorialHelper:
         return f"https://bitmovin.com/demos/stream-test?" \
                f"format={manifest_type}&manifest={manifest_url}"
 
+    @staticmethod
+    def mediainfo(path):
+        if not os.path.exists("/usr/bin/mediainfo"):
+            get_ipython().system_raw("apt-get install mediainfo")
+
+        display.display(display.HTML("<br>"))
+        display.display(display.HTML("<br>"))
+        get_ipython().system_raw("""mediainfo --LogFile="/root/.nfo" "$path" """)
+        with open('/root/.nfo', 'r') as file:
+            media = file.read()
+            media = media.replace(os.path.dirname(path)+"/", "")
+        print(media)
+        get_ipython().system_raw("rm -f '/root/.nfo'")                        
 
 def camelize(string):
     if not string.isalnum():
