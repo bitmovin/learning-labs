@@ -96,10 +96,9 @@ class TutorialPrinter:
         return self._output(IFrame(src=url, width=width, height=height))
 
     def image(self, url):
-        return self._output(Image(filename=url))
+        return self._output(Image(url))
 
     def rest_representation(self, method, url, request=None, response=None):
-
         req = f"<b>{method}</b> {url}"
         if request:
             request = json.loads(request)
