@@ -1,0 +1,26 @@
+{
+  "name": "bitmovin-typescript-examples-hls-audio",
+  "version": "1.0.0",
+  "description": "Examples for @bitmovin/api-sdk",
+  "keywords": [
+    "bitmovin",
+    "bitmovin-javascript",
+    "bitmovin-typescript",
+    "bitmovin-api",
+    "@bitmovin/api-sdk",
+    "examples"
+  ],
+  "scripts": {
+    "format": "prettier --write \"./{common,src}/**/*.{ts,tsx,scss}\"",
+    "format-check": "prettier --list-different \"./{common,src}/**/*.{ts,tsx,scss}\""
+  },
+  "author": "Bitmovin Inc",
+  "license": "MIT",
+  "dependencies": {
+    "@bitmovin/api-sdk": "^1.174.0",
+    "@types/node": "^14.14.20",
+    "prettier": "^2.5.1",
+    "ts-node": "^9.1.1",
+    "typescript": "^4.1.3"
+  }
+}
