@@ -18,9 +18,10 @@ def validate_config():
         raise Exception("Module 'config' not found")
 
     assert (config.API_KEY != ''), "API_KEY is not set"
-    assert (config.S3_BUCKET_NAME != ''), "S3_BUCKET_NAME is not set"
-    assert (config.S3_ACCESS_KEY != ''), "S3_ACCESS_KEY is not set"
-    assert (config.S3_SECRET_KEY != ''), "S3_SECRET_KEY is not set"
+    assert (config.LINODE_OBJECT_BUCKET_NAME != ''), "LINODE_OBJECT_STORAGE_BUCKET_NAME is not set"
+    assert (config.LINODE_OBJECT_ACCESS_KEY != ''), "LINODE_OBJECT_ACCESS_KEY is not set"
+    assert (config.LINODE_OBJECT_SECRET_KEY != ''), "LINODE_OBJECT_SECRET_KEY is not set"
+    assert (config.LINODE_OBJECT_HOST_NAME != ''), "LINODE_OBJECT_HOST_NAME is not set"
     assert (config.MY_ID != ''), "MY_ID is not set"
 
     return "Your configuration appears complete"
